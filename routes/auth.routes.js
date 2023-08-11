@@ -87,7 +87,7 @@ router.post("/login", async (req, res, next) => {
     console.log("foundUser", foundUser)
     if (foundUser === null) {
       res.status(400).render("auth/login.hbs", {
-        errorMessage: "No existe el usuario"
+        errorMessage: "Contraseña o usuario no validos"
       })
       return; // detener la ejecucion de la ruta
     }
@@ -100,7 +100,7 @@ router.post("/login", async (req, res, next) => {
 
     if (isPasswordCorrect === false) {
       res.status(400).render("auth/login.hbs", {
-        errorMessage: "Contraseña no valida"
+        errorMessage: "Contraseña o usuario no validos"
       })
       return; // detener la ejecucion de la ruta
     }
