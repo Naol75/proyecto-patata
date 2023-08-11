@@ -16,4 +16,11 @@ const userRouter = require("./user.routes.js")
 router.use("/user", userRouter)
 
 
+const potatoRouter = require("./potatoes.routes.js")
+router.use("/potatoes", potatoRouter)
+
+
+// const recipeRouter = require("./recipes.routes.js")
+// router.use("/recipes", recipeRouter)
+
 module.exports = router;

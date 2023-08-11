@@ -10,13 +10,18 @@
 
   <body>
     <nav>
-      <a href="">Lista Patatas</a>
-      <a href="">Patatas favs</a>
-      <a href="">Lista Recetas</a>
-      <a href="">Recetas favs</a>
+      {{#if isUserActive}}
+      <a href="/potatoes">Lista Patatas</a>
+      <a href="/recipes">Lista Recetas</a>
+      <a href="/user/{{this._id}}/favpotatoes">Patatas favs</a>
+      <a href="/user/{{this._id}}/favrecipes">Recetas favs</a>
       <a href="">Mi perfil</a>
       <a href="">Carrito</a>
       <a href="">Salir</a>
+      {{else}}
+      <a href="/potatoes">Lista Patatas</a>
+      <a href="/recipes">Lista Recetas</a>
+      {{/if}}
     </nav>
 
     {{{body}}}

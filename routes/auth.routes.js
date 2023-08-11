@@ -87,7 +87,7 @@ router.post("/login", async (req, res, next) => {
     console.log("foundUser", foundUser)
     if (foundUser === null) {
       res.status(400).render("auth/login.hbs", {
-        errorMessage: "Usuario no existe con este correo"
+        errorMessage: "No existe el usuario"
       })
       return; // detener la ejecucion de la ruta
     }
@@ -122,7 +122,7 @@ router.post("/login", async (req, res, next) => {
     req.session.save(() => {
 
       // Si todo sale bien...
-      res.redirect("/:userId")
+      res.redirect("/potatoes")
       // ! DESPUES DE CREAR LA SESION, TENEMOS ACCESO A REQ.SESSION.USER EN CUALQUIER RUTA DE MI SERVIDOR
     })
 
