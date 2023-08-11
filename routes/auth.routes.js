@@ -16,7 +16,7 @@ router.get("/signup", (req, res, next) => {
 router.post("/signup", async (req, res, next) => {
   console.log(req.body)
   // haremos muchas cosas
-  const { username, email, password } = req.body
+  const { username, email, password, repeatPassword } = req.body
 
   if (username === "" || email === "" || password === "" || repeatPassword === "") {
     res.status(400).render("auth/signup.hbs", {
@@ -25,18 +25,21 @@ router.post("/signup", async (req, res, next) => {
     return; // detener la ejecucion de la ruta
   }
 
-
   // para validaciones complejas sobre strings regex
-  const regexPassword = /^(?=.\d)(?=.[a-z])(?=.[A-Z])(?=.[a-zA-Z]).{8,}$/gm
-  if (regexPassword.test(password) === false) {
+  const regexPassword = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm;
+if (regexPassword.test(password) === false) {
+  res.status(400).render("auth/signup.hbs", {
+    errorMessage: "La contraseña debe tener al menos, una mayuscula, una minuscula, un caracter especial y tener 8 caracteres o más"
+  });
+  return; // detener la ejecucion de la ruta
+}
+
+  if (password !== repeatPassword) {
     res.status(400).render("auth/signup.hbs", {
-      errorMessage: "La contraseña debe tener al menos, una mayuscula, una minuscula, un caracter especial y tener 8 caracteres o más"
-    })
+      errorMessage: "Las contraseñas no coinciden"
+    });
     return; // detener la ejecucion de la ruta
   }
-
-  // opcionalmente pueden hacer otros checkeos de regex. Email, telefonos.
-
 
   // validacion de que el usuario no estar duplicado
   try {
@@ -76,11 +79,11 @@ router.get("/login", (req, res, next) => {
 // POST /auth/login
 router.post("/login", async (req, res, next) => {
   console.log(req.body)
-  const { email, password } = req.body
+  const { username, password } = req.body
   // Que los campos no esten vacios (opcional)
   try {
     // debemos buscar un usuario con ese correo electronico
-    const foundUser = await User.findOne({ email: email })
+    const foundUser = await User.findOne({ username: username })
     console.log("foundUser", foundUser)
     if (foundUser === null) {
       res.status(400).render("auth/login.hbs", {
@@ -109,6 +112,7 @@ router.post("/login", async (req, res, next) => {
     // crear una sesion activa del usuario
     req.session.user = {
       _id: foundUser._id,
+      username: foundUser.username,
       email: foundUser.email,
       role: foundUser.role
     }
@@ -118,7 +122,7 @@ router.post("/login", async (req, res, next) => {
     req.session.save(() => {
 
       // Si todo sale bien...
-      res.redirect("/:userId/details")
+      res.redirect("/:userId")
       // ! DESPUES DE CREAR LA SESION, TENEMOS ACCESO A REQ.SESSION.USER EN CUALQUIER RUTA DE MI SERVIDOR
     })
 
