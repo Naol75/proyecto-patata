@@ -1,0 +1,12 @@
+<h1>{{recipe.title}}</h1>
+<img src="{{recipe.img}}" alt="{{recipe.title}} Image" width="200" />
+
+<p>{{recipe.instructions}}</p>
+
+<a href="/recipes/{{recipe._id}}/edit">
+  <button>Edit</button>
+</a>
+
+<form action="/recipes/{{recipe._id}}/delete" method="POST">
+  <button>Delete</button>
+</form>

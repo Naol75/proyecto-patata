@@ -1,0 +1,28 @@
+<form action="/recipes/newrecipe" method="POST" enctype="multipart/form-data">
+  <label for="img">Recipe image</label>
+  <input type="file" name="img" accept="image/*" />
+  
+  <br />
+  
+  <label for="title">Recipe title</label>
+  <input type="text" name="title"/>
+
+  <br />
+  <label for="time">Time</label>
+  <input type="text" name="time"/>
+  <br />
+
+  <label for="ingredients">Ingredients</label>
+  <input type="text" name="ingredients">
+  <br />
+
+  <label for="instructions">Instructions</label>
+  <textarea name="instructions" cols="30" rows="10"></textarea>
+  <br />
+
+    {{log userId}}
+    <input type="hidden" name="owner" value="{{userId}}"/>
+
+    <button type="submit">Add recipe</button>
+  </form>
+</div>

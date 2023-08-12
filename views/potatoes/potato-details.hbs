@@ -1,12 +1,11 @@
-  <h1>{{potato.name}}</h1>
-  <img src="{{potato.img}}" alt="{{potato.name}} Image" width="200">
+<h1>{{potato.name}}</h1>
+<img src="{{potato.img}}" alt="{{potato.name}} Image" width="200" />
 
-  <p>{{potato.details}}</p>
+<p>{{potato.details}}</p>
 
 <a href="/potatoes/{{potato._id}}/edit">
   <button>Edit</button>
 </a>
-
 
 <form action="/potatoes/{{potato._id}}/delete" method="POST">
   <button>Delete</button>

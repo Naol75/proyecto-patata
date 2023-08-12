@@ -42,10 +42,7 @@ router.get("/:id/edit", async (req, res, next) => {
   }
 });
 
-router.post(
-  "/:id/edit",
-  cloudinaryMulter.single("img"),
-  async (req, res, next) => {
+router.post("/:id/edit", cloudinaryMulter.single("img"), async (req, res, next) => {
     try {
       console.log(req.body);
       console.log(req.file);
@@ -92,12 +89,7 @@ router.get("/newpotato", isLoggedIn, isAdmin, async (req, res, next) => {
   }
 });
 
-router.post(
-  "/newpotato",
-  isLoggedIn,
-  isAdmin,
-  cloudinaryMulter.single("img"),
-  async (req, res, next) => {
+router.post("/newpotato", isLoggedIn, isAdmin, cloudinaryMulter.single("img"), async (req, res, next) => {
     try {
       const result = req.file.path;
       const newPotato = new Potato({

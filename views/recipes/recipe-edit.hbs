@@ -1,0 +1,26 @@
+<form action="/recipes/{{recipe._id}}/edit" method="POST" enctype="multipart/form-data">
+  <label for="img">Recipe image</label>
+  <input type="file" name="img" value="{{recipe.img}}" accept="image/*" />
+  
+  <br />
+  
+  <label for="title">Recipe title</label>
+  <input type="text"  value="{{recipe.title}}" name="title" />
+
+  <br />
+  <label for="time">Time</label>
+  <input type="text" value="{{recipe.time}}" name="time" />
+  <br />
+
+  <label for="ingredients">Ingredients</label>
+  <textarea name="ingredients">{{recipe.ingredients}}</textarea>
+  <br />
+
+  <label for="instructions">instructions</label>
+  <textarea name="instructions" cols="30" rows="10">{{recipe.instructions}}</textarea>
+  <br />
+
+
+    <button type="submit">Edit recipe</button>
+  </form>
+</div>
