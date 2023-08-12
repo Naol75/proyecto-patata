@@ -11,16 +11,16 @@
   <body>
     <nav>
       {{#if isUserActive}}
-      <a href="/potatoes">Lista Patatas</a>
-      <a href="/recipes">Lista Recetas</a>
-      <a href="/user/{{this._id}}/favpotatoes">Patatas favs</a>
-      <a href="/user/{{this._id}}/favrecipes">Recetas favs</a>
-      <a href="">Mi perfil</a>
-      <a href="">Carrito</a>
-      <a href="">Salir</a>
+      <a href="/potatoes">Patata List</a>
+      <a href="/recipes">Recipes List</a>
+      <a href="/user/{{this._id}}/favpotatoes">Fav Patata</a>
+      <a href="/user/{{this._id}}/favrecipes">Fav Recipes</a>
+      <a href="">My Profile</a>
+      <a href="">My Cart</a>
+      <a href="">Log Out</a>
       {{else}}
-      <a href="/potatoes">Lista Patatas</a>
-      <a href="/recipes">Lista Recetas</a>
+      <a href="/potatoes">Patata List</a>
+      <a href="/recipes">Recipes List</a>
       {{/if}}
     </nav>
 

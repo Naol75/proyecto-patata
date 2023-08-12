@@ -1,1 +1,17 @@
-<h1>Tonto el que lo lea</h1>
+<h1>Check Potatoes</h1>
+<ul class="potato-list">
+  {{#each potatoes}}
+    <li class="potato-card">
+      <a href="/potatoes/{{this._id}}/details" class="card-link">
+        <div class="card-content">
+          <img  width="400px" src="{{this.img}}" alt="{{this.name}} Image">
+          <h2>
+            {{this.name}}
+            <a href="#" class="like-button" data-potato-id="{{this._id}}">&#10084;</a>
+          </h2>
+          <button class="add-to-cart-button">Add to Cart</button>
+        </div>
+      </a>
+    </li>
+  {{/each}}
+</ul>

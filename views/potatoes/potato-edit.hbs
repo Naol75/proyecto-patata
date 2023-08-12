@@ -1,0 +1,22 @@
+<form action="/potatoes/{{potato._id}}/edit" method="POST" enctype="multipart/form-data">
+  <label for="img">Patata image</label>
+  <input type="file" name="img" value="{{potato.img}}" accept="image/*" />
+  
+  <br />
+  
+  <label for="name">Patata name</label>
+  <input type="text"  value="{{potato.name}}" name="name" />
+
+  <br />
+  <label for="origin">Origin</label>
+  <input type="text" value="{{potato.origin}}" name="origin" />
+  <br />
+
+  <label for="details">Details</label>
+<textarea name="details" required cols="30" rows="10">{{potato.details}}</textarea>
+  <br />
+
+
+    <button type="submit">Edit patata</button>
+  </form>
+</div>
