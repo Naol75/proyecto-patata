@@ -21,6 +21,8 @@ const potatoSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
+
+  
 });
 
 const Potato = mongoose.model("Potato", potatoSchema);

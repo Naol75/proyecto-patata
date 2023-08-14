@@ -20,6 +20,37 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+
+router.post("/addOrRemoveFavoritePotato/:potatoId", isLoggedIn, async (req, res, next) => {
+  try {
+      const userId = req.session.user._id;
+      const potatoId = req.params.potatoId;
+
+      const user = await User.findById(userId);
+
+      const isFavorite = user.favPotatoes.includes(potatoId);
+
+      if (!isFavorite) {
+          user.favPotatoes.push(potatoId);
+          
+      } 
+      else {
+        user.favorites.favPotatoes = user.favPotatoes.filter(function(favPotatoId) {
+          return favPotatoId.toString() !== potatoId;
+      });
+      }
+      await user.save();
+
+  } catch (error) {
+      next(error);
+  }
+});
+
+
+
+
+// los parámetros dinámicos deben ser más descriptivos
+
 router.get("/:id/details", async (req, res, next) => {
   try {
     const potato = await Potato.findById(req.params.id);
@@ -39,26 +70,24 @@ router.get("/:id/edit", async (req, res, next) => {
   }
 });
 
+
 router.post("/:id/edit", cloudinaryMulter.single("img"), async (req, res, next) => {
-    try {
-      console.log(req.body);
-      console.log(req.file);
+  try {
+    const potatoId = req.params.id;
 
-      const potatoId = req.params.id;
-      const newData = req.body;
+    const editedPotato = await Potato.findByIdAndUpdate(potatoId,{
+      name: req.body.name,
+      origin: req.body.origin,
+      details: req.body.details,
+      img: req.file.path,
+      new: true
+    });
 
-      const editedPotato = await Potato.findByIdAndUpdate(potatoId, newData, {
-        new: true,
-      });
-
-      console.log(editedPotato);
-
-      res.redirect(`/potatoes/${editedPotato._id}/details`);
-    } catch (error) {
-      next(error);
-    }
+    res.redirect(`/potatoes/${editedPotato._id}/details`);
+  } catch (error) {
+    next(error);
   }
-);
+});
 
 router.post("/:id/delete", async (req, res, next) => {
   try {
@@ -83,6 +112,7 @@ router.get("/newpotato", isLoggedIn, isAdmin, async (req, res, next) => {
   }
 });
 
+
 router.post("/newpotato", isLoggedIn, isAdmin, cloudinaryMulter.single("img"), async (req, res, next) => {
     try {
       const result = req.file.path;
@@ -93,7 +123,7 @@ router.post("/newpotato", isLoggedIn, isAdmin, cloudinaryMulter.single("img"), a
         img: result,
         owner: req.body.owner,
       });
-
+// Hacer esto con .create()
       res.redirect("/potatoes");
       const savedPotato = await newPotato.save();
       res.json(savedPotato);

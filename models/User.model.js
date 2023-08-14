@@ -25,11 +25,20 @@ const userSchema = new Schema(
       type: String,
       default: "user",
       required: true
-    }
+    },
+    
+    favPotatoes: [{
+      type: String
+    }],
+    favRecipes: [{
+      type: String
+    }],
   },
   {
-    timestamps: true,
+    // this second object adds extra properties: `createdAt` and `updatedAt`    
+    timestamps: true
   }
+
 );
 
 const User = model("User", userSchema);

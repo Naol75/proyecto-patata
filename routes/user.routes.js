@@ -1,6 +1,8 @@
 const express = require('express');
 const User = require('../models/User.model');
 const router = express.Router();
+const cloudinaryMulter = require('../middlewares/cloudinary.middlewares');
+
 
 const { isLoggedIn, updateLocals } = require("../middlewares/auth.middlewares.js")
 const { isAdmin, isGourmet } = require("../middlewares/role.middlewares")
@@ -12,38 +14,43 @@ router.get("/", isLoggedIn, (req, res, next) => {
     res.render("potatoes/potatoes.hbs")
 })
 
-router.get("/:userId", isLoggedIn, async (req, res, next) => {
-    User.findById(req.session.user._id)
+router.get("/profile", isLoggedIn, async (req, res, next) => {
+
     try {
+        const user = await User.findById(req.session.user._id)
         res.render("user/profile.hbs", {
-            user: response
-        })
+            user
+        });
     } catch (error) {
         next(error)
     }
 })
-// ejemplo de ruta que recibe la imagen para subirla a cloudinary y actualizar el URL en el documento del usuario
 
-//                                      el nombre del campo donde viene la imagen
-//                                                  |
-// router.post("/upload-profile-pic", uploader.single("profilePic"),  (req, res, next) => {
-//   // cuando nosotros recibimos la imagen
-//   // esa imagen la pasamos a cloudinary
 
-//   // cloudinary nos devuelve el URL de acceso
-//   console.log(req.file)
+router.post("/profile/update", cloudinaryMulter.single("img"), async (req, res, next) => {
+    try {
+      const userId = req.session.user._id
+      const updatedData = req.body;
+      
+      const updatedUser = await User.findByIdAndUpdate(userId, updatedData, {
+        new: true,
+      });
 
-//   // buscar el usuario que está subiendo esa imagen, actualizarlo y cambiar su profilePic por el req.file.path de cloudinary
-//   User.findByIdAndUpdate( req.session.user._id, {
-//     profilePic: req.file.path
-//   } )
-//   .then(() => {
-//     res.redirect("/user/")
-//   })
-//   .catch((error) => {
-//     next(error)
-//   })
-// })
+      res.redirect('/user/profile');
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+router.get("/logout", (req, res, next) => {
+
+    req.session.destroy(() => {
+      res.redirect("/")
+    })
+  
+  })
+
 
 
 module.exports = router;

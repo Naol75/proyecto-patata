@@ -1,11 +1,26 @@
 const express = require('express');
 const router = express.Router();
-const { updateLocals } = require("../middlewares/auth.middlewares.js")
+const { isLoggedIn, updateLocals } = require("../middlewares/auth.middlewares.js")
 router.use(updateLocals)
+const Potato = require("../models/Potato.model");
 
 /* GET home page */
-router.get("/", (req, res, next) => {
-  res.render("index");
+router.get("/", async (req, res, next) => {
+  try {
+    if (req.session.user === undefined) {
+      // el usuario no está logeado
+      res.render("index")
+    } else {
+      const potatoes = await Potato.find();
+      res.render("potatoes/potatoes.hbs", { potatoes });
+      
+    }
+  } 
+  
+  catch (error) {
+    next(error)
+  }
+  
 });
 
 

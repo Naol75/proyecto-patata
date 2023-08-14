@@ -7,7 +7,9 @@
           <img  width="400px" src="{{this.img}}" alt="{{this.name}} Image">
           <h2>
             {{this.name}}
-            <a href="#" class="like-button" data-potato-id="{{this._id}}">&#10084;</a>
+              <form action="/addOrRemoveFavoritePotato/:potatoId" method="POST">
+               <button>&#10084;</button>
+              </form>
           </h2>
           <button class="add-to-cart-button">Add to Cart</button>
         </div>

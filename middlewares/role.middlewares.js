@@ -9,6 +9,8 @@ function isAdmin(req, res, next) {
 
 function isGourmet(req, res, next) {
 
+  // Llamar a la base de datos de recetas (no hay acceso a recipe)
+
   if (req.session.user._id.toString() === recipe.owner.toString()) {
       next() // adelante
     }  else {

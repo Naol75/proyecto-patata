@@ -1,3 +1,31 @@
 <h1>Welcome to Patata's World!</h1>
-<button>Come in to the kitchen!</button>
+<a href="/auth/login">
+    <button>Come into the kitchen!</button>
+</a>
+<a href="/auth/signup">
 <button>Sign Up!</button>
+</a>
+
+{{#if isUserActive}}
+
+<h1>Check Potatoes</h1>
+<ul class="potato-list">
+  {{#each potatoes}}
+    <li class="potato-card">
+      <a href="/potatoes/{{this._id}}/details" class="card-link">
+        <div class="card-content">
+          <img  width="400px" src="{{this.img}}" alt="{{this.name}} Image">
+          <h2>
+            {{this.name}}
+              <form action="/addOrRemoveFavoritePotato/:potatoId" method="POST">
+               <button>&#10084;</button>
+              </form>
+          </h2>
+          <button class="add-to-cart-button">Add to Cart</button>
+        </div>
+      </a>
+    </li>
+  {{/each}}
+</ul>
+
+{{/if}}

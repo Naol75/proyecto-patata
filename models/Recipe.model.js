@@ -32,6 +32,8 @@ const recipeSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Potato",
   }],
+
+  
 });
 
 const Recipe = mongoose.model("Recipe", recipeSchema);

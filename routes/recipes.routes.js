@@ -18,8 +18,42 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+router.post("/addOrRemoveFavoriteRecipe/:recipeId", isLoggedIn, async (req, res, next) => {
+  try {
+      const userId = req.session.user._id;
+      const recipeId = req.params.recipeId;
+
+      const user = await User.findById(userId);
+
+      const isFavorite = user.favRecipes.includes(recipeId);
+
+      if (!isFavorite) {
+          user.favRecipes.push(recipeId);
+
+          
+          
+          
+        }
+        else{
+          user.favRecipes = user.favRecipes.filter(function(favRecipeId) {
+            return favRecipeId.toString() !== recipeId;
+          });
+        }
+        await user.save();
+
+
+  } catch (error) {
+      next(error);
+  }
+});
+
+
+
+
 router.get("/:id/details", async (req, res, next) => {
   try {
+
+    // crear variables isAdmin e isOwner fuera del render
     const recipe = await Recipe.findById(req.params.id);
     res.render("recipes/recipe-details.hbs", { recipe, isAdmin: req.session.user.role === "admin", isOwner: req.session.user._id.toString() === recipe.owner.toString() });
   } catch (error) {
@@ -39,13 +73,21 @@ router.get("/:id/edit", async (req, res, next) => {
   }
 });
 
+
+
+
+
 router.post("/:id/edit", cloudinaryMulter.single("img"), async (req, res, next) => {
   try {
     const recipeId = req.params.id;
-    const newData = req.body;
 
-    const editedRecipe = await Recipe.findByIdAndUpdate(recipeId, newData, {
-      new: true,
+    const editedRecipe = await Recipe.findByIdAndUpdate(recipeId,{
+      title: req.body.title,
+      time: req.body.time,
+      ingredients: req.body.ingredients,
+      instructions: req.body.instructions,
+      img: req.file.path,
+      new: true
     });
 
     res.redirect(`/recipes/${editedRecipe._id}/details`);
@@ -54,6 +96,8 @@ router.post("/:id/edit", cloudinaryMulter.single("img"), async (req, res, next) 
   }
 });
 
+
+//id descriptivo
 router.post("/:id/delete", async (req, res, next) => {
   try {
     const recipeId = req.params.id;
@@ -65,6 +109,8 @@ router.post("/:id/delete", async (req, res, next) => {
   }
 });
 
+
+// new-recipe
 router.get("/newrecipe", isLoggedIn, async (req, res, next) => {
   try {
     const userId = req.session.user._id;
@@ -83,10 +129,12 @@ router.post("/newrecipe", isLoggedIn, cloudinaryMulter.single("img"), async (req
       ingredients: req.body.ingredients,
       instructions: req.body.instructions,
       img: result,
-      owner: req.body.owner,
+      owner: req.session.user._id,
       potatoes: req.body.potatoes,
     });
 
+
+    //.create()
     const savedRecipe = await newRecipe.save();
     res.redirect("/recipes");
   } catch (error) {
