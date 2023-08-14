@@ -24,6 +24,7 @@ function updateLocals(req, res, next) {
 
 
 
+
 module.exports = {
   isLoggedIn: isLoggedIn,
   updateLocals: updateLocals,

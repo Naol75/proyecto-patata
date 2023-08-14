@@ -7,7 +7,7 @@ const Recipe = require("../models/Recipe.model");
 const Potato = require("../models/Potato.model");
 
 const {isLoggedIn, updateLocals} = require("../middlewares/auth.middlewares.js");
-const { isAdmin, isGourmet } = require("../middlewares/role.middlewares");
+const { isAdmin, isGourmet, isOwner } = require("../middlewares/role.middlewares");
 
   router.get("/", async (req, res, next) => {
     try {
@@ -48,6 +48,14 @@ const { isAdmin, isGourmet } = require("../middlewares/role.middlewares");
       const recipeId = req.params.id;
       const newData = req.body;
 
+      if (isAdmin || isOwner) {
+        next()
+      }
+      else{
+  
+        return res.send("You are not allowed to edit this Recipe");
+      }
+
       const editedRecipe = await Recipe.findByIdAndUpdate(recipeId, newData, {
         new: true,
       });
@@ -61,14 +69,18 @@ const { isAdmin, isGourmet } = require("../middlewares/role.middlewares");
   }
 );
 
-router.post("/:id/delete", async (req, res, next) => {
+router.post("/:id/delete", isAdmin, isOwner, async (req, res, next) => {
   try {
     const recipeId = req.params.id;
     const recipe = await Recipe.findById(recipeId);
-    if (recipe.owner.toString() !== req.session.user._id.toString()) {
-      return res.send("You are not allowed to edit this Recipe");
+    if (isAdmin || isOwner) {
+      next()
     }
-    await Recipe.findByIdAndDelete(recipeId);
+    else{
+
+      return res.send("You are not allowed to delete this Recipe");
+    }
+    await Recipe.findByIdAndDelete(recipe);
 
     res.redirect("/");
   } catch (error) {
@@ -76,7 +88,7 @@ router.post("/:id/delete", async (req, res, next) => {
   }
 });
 
-router.get("/newrecipe", isLoggedIn, isAdmin, async (req, res, next) => {
+router.get("/newrecipe", isLoggedIn, async (req, res, next) => {
   try {
     const userId = req.session.user._id;
 

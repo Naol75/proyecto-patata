@@ -3,6 +3,8 @@
 
 <p>{{recipe.instructions}}</p>
 
+
+{{#if isUserAdmin}} 
 <a href="/recipes/{{recipe._id}}/edit">
   <button>Edit</button>
 </a>

@@ -32,9 +32,6 @@ router.get("/:id/details", async (req, res, next) => {
 router.get("/:id/edit", async (req, res, next) => {
   try {
     const potato = await Potato.findById(req.params.id);
-    if (potato.owner.toString() !== req.session.user._id.toString()) {
-      return res.send("You are not allowed to edit this Patata");
-    }
 
     res.render("potatoes/potato-edit.hbs", { potato });
   } catch (error) {
@@ -67,9 +64,6 @@ router.post("/:id/delete", async (req, res, next) => {
   try {
     const potatoId = req.params.id;
     const potato = await Potato.findById(potatoId);
-    if (potato.owner.toString() !== req.session.user._id.toString()) {
-      return res.send("You are not allowed to edit this Patata");
-    }
     await Potato.findByIdAndDelete(potatoId);
 
     res.redirect("/");

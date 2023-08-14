@@ -3,10 +3,12 @@
 
 <p>{{potato.details}}</p>
 
+
+{{#if isUserAdmin}}
 <a href="/potatoes/{{potato._id}}/edit">
   <button>Edit</button>
 </a>
-
 <form action="/potatoes/{{potato._id}}/delete" method="POST">
   <button>Delete</button>
 </form>
+{{/if}}
