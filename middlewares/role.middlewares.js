@@ -9,7 +9,7 @@ function isAdmin(req, res, next) {
 
 function isGourmet(req, res, next) {
 
-  if (req.session.user._id === recipe.owner.toString()) {
+  if (req.session.user._id.toString() === recipe.owner.toString()) {
       next() // adelante
     }  else {
       res.redirect("/auth/login")
@@ -19,7 +19,7 @@ function isGourmet(req, res, next) {
 
 function isOwner(req, res, next) {
 
-  if (req.session.user._id === recipe.owner.toString()) {
+  if (req.session.user._id.toString() === recipe.owner.toString()) {
     next() // adelante
   } else {
       res.redirect("/auth/login")
@@ -27,4 +27,6 @@ function isOwner(req, res, next) {
   }
 
 
-  module.exports = { isAdmin, isGourmet, isOwner }
+
+
+  module.exports = { isAdmin, isGourmet, isOwner}

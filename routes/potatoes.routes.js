@@ -23,7 +23,7 @@ router.get("/", async (req, res, next) => {
 router.get("/:id/details", async (req, res, next) => {
   try {
     const potato = await Potato.findById(req.params.id);
-    res.render("potatoes/potato-details.hbs", { potato });
+    res.render("potatoes/potato-details.hbs", { potato, isAdmin: req.session.user.role === "admin" });
   } catch (error) {
     next(error);
   }

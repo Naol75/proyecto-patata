@@ -3,12 +3,22 @@
 
 <p>{{recipe.instructions}}</p>
 
+{{#if isAdmin}}
+  <a href="/recipes/{{recipe._id}}/edit">
+    <button>Edit</button>
+  </a>
 
-{{#if isUserAdmin}} 
-<a href="/recipes/{{recipe._id}}/edit">
-  <button>Edit</button>
-</a>
+  <form action="/recipes/{{recipe._id}}/delete" method="POST">
+    <button>Delete</button>
+  </form>
+{{else}}
+  {{#if isOwner}}
+  <a href="/recipes/{{recipe._id}}/edit">
+    <button>Edit</button>
+  </a>
 
-<form action="/recipes/{{recipe._id}}/delete" method="POST">
-  <button>Delete</button>
-</form>
+  <form action="/recipes/{{recipe._id}}/delete" method="POST">
+    <button>Delete</button>
+  </form>
+  {{/if}}
+{{/if}}  
