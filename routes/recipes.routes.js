@@ -99,7 +99,7 @@ router.get("/newrecipe", isLoggedIn, async (req, res, next) => {
   }
 });
 
-router.post("/newrecipe", isLoggedIn, isAdmin, cloudinaryMulter.single("img"), async (req, res, next) => {
+router.post("/newrecipe", isLoggedIn, cloudinaryMulter.single("img"), async (req, res, next) => {
   try {
     const result = req.file.path;
     const newRecipe = new Recipe({
