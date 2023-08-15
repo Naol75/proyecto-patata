@@ -1,6 +1,7 @@
 <form action="/recipes/{{recipe._id}}/edit" method="POST" enctype="multipart/form-data">
   <label for="img">Recipe image</label>
   <input type="file" name="img" value="{{recipe.img}}" accept="image/*" />
+  <img src="{{recipe.img}}" alt="Current Image" width="100" height="100">
   
   <br />
   

@@ -28,16 +28,16 @@ router.post("/addOrRemoveFavoriteRecipe/:recipeId", isLoggedIn, async (req, res,
     const isFavorite = user.favRecipes.includes(recipeId);
 
     if (!isFavorite) {
-      user.favRecipes.push(recipeId);
+      await User.findByIdAndUpdate(userId, { $push: { favRecipes: recipeId } });
     } else {
-      user.favRecipes = user.favRecipes.filter(favRecipeId => favRecipeId.toString() !== recipeId);
+      await User.findByIdAndUpdate(userId, { $pull: { favRecipes: recipeId } });
     }
 
-    await user.save();
-
     if (req.xhr) {
+      
       return res.status(200).json({ message: "Recipe added/removed successfully" });
     } else {
+      
       res.redirect("/");
     }
   } catch (error) {
@@ -47,20 +47,21 @@ router.post("/addOrRemoveFavoriteRecipe/:recipeId", isLoggedIn, async (req, res,
 
 
 
-router.get("/:id/details", async (req, res, next) => {
+router.get("/:recipeId/details", async (req, res, next) => {
   try {
-
+    const {recipeId} = req.params
     // crear variables isAdmin e isOwner fuera del render
-    const recipe = await Recipe.findById(req.params.id);
+    const recipe = await Recipe.findById(recipeId);
     res.render("recipes/recipe-details.hbs", { recipe, isAdmin: req.session.user.role === "admin", isOwner: req.session.user._id.toString() === recipe.owner.toString() });
   } catch (error) {
     next(error);
   }
 });
 
-router.get("/:id/edit", async (req, res, next) => {
+router.get("/:recipeId/edit", async (req, res, next) => {
   try {
-    const recipe = await Recipe.findById(req.params.id);
+    const {recipeId} = req.params
+    const recipe = await Recipe.findById(recipeId);
   
       res.render("recipes/recipe-edit.hbs", { recipe});
 
@@ -74,16 +75,27 @@ router.get("/:id/edit", async (req, res, next) => {
 
 
 
-router.post("/:id/edit", cloudinaryMulter.single("img"), async (req, res, next) => {
+router.post("/:recipeId/edit", cloudinaryMulter.single("img"), async (req, res, next) => {
   try {
-    const recipeId = req.params.id;
+    const { recipeId } = req.params;
 
-    const editedRecipe = await Recipe.findByIdAndUpdate(recipeId,{
+    const existingRecipe = await Recipe.findById(recipeId);
+
+
+    const updatedFields = {
       title: req.body.title,
-      time: req.body.time,
+      time: req.body.title,
       ingredients: req.body.ingredients,
       instructions: req.body.instructions,
-      img: req.file.path,
+    };
+    
+    if (req.file) {
+      updatedFields.img = req.file.path;
+    } else {
+      updatedFields.img = existingRecipe.img;
+    }
+
+    const editedRecipe = await Recipe.findByIdAndUpdate(recipeId, updatedFields, {
       new: true
     });
 
@@ -95,9 +107,9 @@ router.post("/:id/edit", cloudinaryMulter.single("img"), async (req, res, next) 
 
 
 //id descriptivo
-router.post("/:id/delete", async (req, res, next) => {
+router.post("/:recipeId/delete", async (req, res, next) => {
   try {
-    const recipeId = req.params.id;
+    const {recipeId} = req.params;
     await Recipe.findByIdAndDelete(recipeId);
 
     res.redirect("/recipes");
@@ -108,7 +120,7 @@ router.post("/:id/delete", async (req, res, next) => {
 
 
 // new-recipe
-router.get("/newrecipe", isLoggedIn, async (req, res, next) => {
+router.get("/new-recipe", isLoggedIn, async (req, res, next) => {
   try {
     const userId = req.session.user._id;
     res.render("recipes/new-recipe.hbs", { userId });
@@ -117,7 +129,7 @@ router.get("/newrecipe", isLoggedIn, async (req, res, next) => {
   }
 });
 
-router.post("/newrecipe", isLoggedIn, cloudinaryMulter.single("img"), async (req, res, next) => {
+router.post("/new-recipe", isLoggedIn, cloudinaryMulter.single("img"), async (req, res, next) => {
   try {
     const result = req.file.path;
     const newRecipe = new Recipe({
@@ -131,9 +143,10 @@ router.post("/newrecipe", isLoggedIn, cloudinaryMulter.single("img"), async (req
     });
 
 
-    //.create()
-    const savedRecipe = await newRecipe.save();
+    
+    await Recipe.create(newRecipe);
     res.redirect("/recipes");
+
   } catch (error) {
     next(error);
   }

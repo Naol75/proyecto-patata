@@ -30,18 +30,16 @@ router.post("/addOrRemoveFavoritePotato/:potatoId", isLoggedIn, async (req, res,
     const isFavorite = user.favPotatoes.includes(potatoId);
 
     if (!isFavorite) {
-      user.favPotatoes.push(potatoId);
+      await User.findByIdAndUpdate(userId, { $push: { favPotatoes: potatoId } });
     } else {
-      user.favPotatoes = user.favPotatoes.filter(favPotatoId => favPotatoId.toString() !== potatoId);
+      await User.findByIdAndUpdate(userId, { $pull: { favPotatoes: potatoId } });
     }
 
-    await user.save();
-
     if (req.xhr) {
-    
+      
       return res.status(200).json({ message: "Potato added/removed successfully" });
     } else {
-      
+     
       res.redirect("/");
     }
   } catch (error) {
@@ -50,18 +48,21 @@ router.post("/addOrRemoveFavoritePotato/:potatoId", isLoggedIn, async (req, res,
 });
 
 // los parámetros dinámicos deben ser más descriptivos
-router.get("/:id/details", async (req, res, next) => {
+router.get("/:potatoId/details", async (req, res, next) => {
+
   try {
-    const potato = await Potato.findById(req.params.id);
+    const {potatoId} = req.params
+    const potato = await Potato.findById(potatoId);
     res.render("potatoes/potato-details.hbs", { potato, isAdmin: req.session.user.role === "admin" });
   } catch (error) {
     next(error);
   }
 });
 
-router.get("/:id/edit", async (req, res, next) => {
+router.get("/:potatoId/edit", async (req, res, next) => {
   try {
-    const potato = await Potato.findById(req.params.id);
+    const {potatoId} = req.params
+    const potato = await Potato.findById(potatoId);
 
     res.render("potatoes/potato-edit.hbs", { potato });
   } catch (error) {
@@ -70,15 +71,26 @@ router.get("/:id/edit", async (req, res, next) => {
 });
 
 
-router.post("/:id/edit", cloudinaryMulter.single("img"), async (req, res, next) => {
+router.post("/:potatoId/edit", cloudinaryMulter.single("img"), async (req, res, next) => {
   try {
-    const potatoId = req.params.id;
+    const { potatoId } = req.params;
 
-    const editedPotato = await Potato.findByIdAndUpdate(potatoId,{
+    const existingPotato = await Potato.findById(potatoId);
+
+
+    const updatedFields = {
       name: req.body.name,
       origin: req.body.origin,
       details: req.body.details,
-      img: req.file.path,
+    };
+    
+    if (req.file) {
+      updatedFields.img = req.file.path;
+    } else {
+      updatedFields.img = existingPotato.img;
+    }
+
+    const editedPotato = await Potato.findByIdAndUpdate(potatoId, updatedFields, {
       new: true
     });
 
@@ -88,10 +100,9 @@ router.post("/:id/edit", cloudinaryMulter.single("img"), async (req, res, next) 
   }
 });
 
-router.post("/:id/delete", async (req, res, next) => {
+router.post("/:potatoId/delete", async (req, res, next) => {
   try {
-    const potatoId = req.params.id;
-    const potato = await Potato.findById(potatoId);
+    const {potatoId} = req.params;
     await Potato.findByIdAndDelete(potatoId);
 
     res.redirect("/");
@@ -100,7 +111,7 @@ router.post("/:id/delete", async (req, res, next) => {
   }
 });
 
-router.get("/newpotato", isLoggedIn, isAdmin, async (req, res, next) => {
+router.get("/new-potato", isLoggedIn, isAdmin, async (req, res, next) => {
   try {
     const userId = req.session.user._id;
 
@@ -112,7 +123,7 @@ router.get("/newpotato", isLoggedIn, isAdmin, async (req, res, next) => {
 });
 
 
-router.post("/newpotato", isLoggedIn, isAdmin, cloudinaryMulter.single("img"), async (req, res, next) => {
+router.post("/new-potato", isLoggedIn, isAdmin, cloudinaryMulter.single("img"), async (req, res, next) => {
     try {
       const result = req.file.path;
       const newPotato = new Potato({
@@ -122,10 +133,10 @@ router.post("/newpotato", isLoggedIn, isAdmin, cloudinaryMulter.single("img"), a
         img: result,
         owner: req.body.owner,
       });
-// Hacer esto con .create()
+
+      await Potato.create(newPotato);
       res.redirect("/potatoes");
-      const savedPotato = await newPotato.save();
-      res.json(savedPotato);
+      
     } catch (error) {
       next(error);
     }
