@@ -7,7 +7,7 @@ const Recipe = require("../models/Recipe.model");
 const Potato = require("../models/Potato.model");
 
 const { isLoggedIn, updateLocals } = require("../middlewares/auth.middlewares.js");
-const { isAdmin, isOwner } = require("../middlewares/role.middlewares");
+// const { isAdmin, isOwner } = require("../middlewares/role.middlewares");
 
 router.get("/", async (req, res, next) => {
   try {
@@ -47,12 +47,15 @@ router.post("/addOrRemoveFavoriteRecipe/:recipeId", isLoggedIn, async (req, res,
 
 
 
-router.get("/:recipeId/details", async (req, res, next) => {
+router.get("/:recipeId/details", updateLocals, isLoggedIn, async (req, res, next) => {
   try {
     const {recipeId} = req.params
     // crear variables isAdmin e isOwner fuera del render
     const recipe = await Recipe.findById(recipeId);
-    res.render("recipes/recipe-details.hbs", { recipe, isAdmin: req.session.user.role === "admin", isOwner: req.session.user._id.toString() === recipe.owner.toString() });
+    console.log("isAdmin:", res.locals.isAdmin);
+    console.log("isOwner:", res.locals.isOwner);
+    console.log("isGourmet:", res.locals.isGourmet);
+    res.render("recipes/recipe-details.hbs", { recipe, isAdmin: res.locals.isAdmin, isGourmet: res.locals.isGourmet, isOwner: res.locals.isOwner });
   } catch (error) {
     next(error);
   }

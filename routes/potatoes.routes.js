@@ -9,7 +9,7 @@ const {
   isLoggedIn,
   updateLocals,
 } = require("../middlewares/auth.middlewares.js");
-const { isAdmin, isGourmet } = require("../middlewares/role.middlewares");
+// const { isAdmin, isGourmet } = require("../middlewares/role.middlewares");
 
 router.get("/", async (req, res, next) => {
   try {
@@ -36,10 +36,10 @@ router.post("/addOrRemoveFavoritePotato/:potatoId", isLoggedIn, async (req, res,
     }
 
     if (req.xhr) {
-      
+
       return res.status(200).json({ message: "Potato added/removed successfully" });
     } else {
-     
+
       res.redirect("/");
     }
   } catch (error) {
@@ -53,7 +53,7 @@ router.get("/:potatoId/details", async (req, res, next) => {
   try {
     const {potatoId} = req.params
     const potato = await Potato.findById(potatoId);
-    res.render("potatoes/potato-details.hbs", { potato, isAdmin: req.session.user.role === "admin" });
+    res.render("potatoes/potato-details.hbs", { potato, isAdmin: res.locals.isAdmin });
   } catch (error) {
     next(error);
   }
@@ -83,7 +83,7 @@ router.post("/:potatoId/edit", cloudinaryMulter.single("img"), async (req, res, 
       origin: req.body.origin,
       details: req.body.details,
     };
-    
+
     if (req.file) {
       updatedFields.img = req.file.path;
     } else {
@@ -111,32 +111,44 @@ router.post("/:potatoId/delete", async (req, res, next) => {
   }
 });
 
-router.get("/new-potato", isLoggedIn, isAdmin, async (req, res, next) => {
+router.get("/new-potato", isLoggedIn, updateLocals, async (req, res, next) => {
   try {
     const userId = req.session.user._id;
 
     console.log(userId);
-    res.render("potatoes/new-potato.hbs", { userId });
+    if(res.locals.isAdmin){
+
+      res.render("potatoes/new-potato.hbs", { userId });
+    }
+    else {
+      res.redirect("/auth/login")
+    }
   } catch (error) {
     next(error);
   }
 });
 
 
-router.post("/new-potato", isLoggedIn, isAdmin, cloudinaryMulter.single("img"), async (req, res, next) => {
+router.post("/new-potato", isLoggedIn, updateLocals, cloudinaryMulter.single("img"), async (req, res, next) => {
     try {
-      const result = req.file.path;
-      const newPotato = new Potato({
-        name: req.body.name,
-        origin: req.body.origin,
-        details: req.body.details,
-        img: result,
-        owner: req.body.owner,
-      });
+      if(res.locals.isAdmin){
 
-      await Potato.create(newPotato);
-      res.redirect("/potatoes");
-      
+        const result = req.file.path; //si no ponemos imagen salta error (hacer un condicional)
+        const newPotato = new Potato({
+          name: req.body.name,
+          origin: req.body.origin,
+          details: req.body.details,
+          img: result,
+          owner: req.body.owner,
+        });
+
+        await Potato.create(newPotato);
+        res.redirect("/potatoes");
+      }
+      else {
+        res.redirect("/auth/login")
+      }
+
     } catch (error) {
       next(error);
     }
