@@ -7,7 +7,7 @@
           <img  width="400px" src="{{this.img}}" alt="{{this.name}} Image">
           <h2>
             {{this.name}}
-              <form action="/addOrRemoveFavoritePotato/:potatoId" method="POST">
+              <form action="/potatoes/addOrRemoveFavoritePotato/{{this._id}}" method="POST">
                <button>&#10084;</button>
               </form>
           </h2>

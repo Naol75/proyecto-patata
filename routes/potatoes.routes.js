@@ -20,7 +20,6 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-
 router.post("/addOrRemoveFavoritePotato/:potatoId", isLoggedIn, async (req, res, next) => {
   try {
       const userId = req.session.user._id;
@@ -32,10 +31,9 @@ router.post("/addOrRemoveFavoritePotato/:potatoId", isLoggedIn, async (req, res,
 
       if (!isFavorite) {
           user.favPotatoes.push(potatoId);
-          
       } 
       else {
-        user.favorites.favPotatoes = user.favPotatoes.filter(function(favPotatoId) {
+        user.favPotatoes = user.favPotatoes.filter(function(favPotatoId) {
           return favPotatoId.toString() !== potatoId;
       });
       }
@@ -46,11 +44,7 @@ router.post("/addOrRemoveFavoritePotato/:potatoId", isLoggedIn, async (req, res,
   }
 });
 
-
-
-
 // los parámetros dinámicos deben ser más descriptivos
-
 router.get("/:id/details", async (req, res, next) => {
   try {
     const potato = await Potato.findById(req.params.id);
