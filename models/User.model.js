@@ -1,7 +1,9 @@
-const { Schema, model } = require("mongoose");
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
+const Potato = require("../models/Potato.model");
+const Recipe = require("../models/Recipe.model");
 
-
-const userSchema = new Schema(
+const userSchema = new mongoose.Schema(
   {
     username: {
       type: String,
@@ -28,10 +30,12 @@ const userSchema = new Schema(
     },
     
     favPotatoes: [{
-      type: String
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Potato",
     }],
     favRecipes: [{
-      type: String
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Recipe",
     }],
   },
   {
@@ -41,6 +45,6 @@ const userSchema = new Schema(
 
 );
 
-const User = model("User", userSchema);
+const User = mongoose.model("User", userSchema);
 
 module.exports = User;

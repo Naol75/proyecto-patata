@@ -1,0 +1,27 @@
+  <h1>Your Favorite Potatoes</h1>
+
+  {{#if favPotatoes.length}}
+    <ul>
+      {{#each favPotatoes}}
+        <li>
+          <h2>{{this.name}}</h2>
+          <p>Origin: {{this.origin}}</p>
+          <p>Details: {{this.details}}</p>
+          <img src="{{this.img}}" alt="{{this.name}} Image" width="200" />
+        </li>
+
+{{#if isAdmin}}
+<a href="/potatoes/{{potato._id}}/edit">
+  <button>Edit</button>
+</a>
+<form action="/potatoes/{{potato._id}}/delete" method="POST">
+  <button>Delete</button>
+{{/if}}
+</form>
+      {{/each}}
+    </ul>
+  {{else}}
+    <p>You haven't added any potatoes to your favorites yet.</p>
+  {{/if}}
+
+  <a href="/potatoes">Back to All Potatoes</a>
