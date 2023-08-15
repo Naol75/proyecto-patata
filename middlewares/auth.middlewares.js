@@ -1,3 +1,6 @@
+const Recipe = require("../models/Recipe.model");
+
+
 function isLoggedIn(req, res, next) {
 
   if (req.session.user === undefined) {
@@ -9,23 +12,46 @@ function isLoggedIn(req, res, next) {
   }
 }
 
-function updateLocals(req, res, next) {
-
+async function updateLocals(req, res, next) {
   if (req.session.user === undefined) {
-    // creo una variable local que indique que no está logeado
     res.locals.isUserActive = false;
-
-  }
-  else {
-    // creo una variable local que indique que si está logeado
-
-    
+    res.locals.isOwner = false;
+    res.locals.isGourmet = false;
+    res.locals.isAdmin = false;
+  } else {
     res.locals.isUserActive = true;
-  }
+    const userRole = req.session.user.role;
+    console.log("userRole:", userRole);
+    const userId = req.session.user._id;
+    const { recipeId } = req.params;
 
-  next() // despues de actualizar la variable, continua con las rutas
+    try {
+      if (userRole === "gourmet") {
+        res.locals.isGourmet = true;
+      }
+      if (userRole === "admin") {
+        res.locals.isAdmin = true;
+      }
+
+      const recipe = await Recipe.findById(recipeId);
+
+      if (recipe && userId.toString() === recipe.owner.toString()) {
+        res.locals.isOwner = true;
+      } else {
+        res.locals.isOwner = false;
+      }
+
+      console.log("isAdmin:", res.locals.isAdmin);
+      console.log("isOwner:", res.locals.isOwner);
+      console.log("isGourmet:", res.locals.isGourmet);
+
+      next();
+    } catch (error) {
+      console.error(error);
+      next(error);
+    }
+  }
 }
- // Crear variables locales con los roles
 
 
 

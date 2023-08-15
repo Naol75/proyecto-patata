@@ -5,7 +5,7 @@ const cloudinaryMulter = require('../middlewares/cloudinary.middlewares');
 
 
 const { isLoggedIn, updateLocals } = require("../middlewares/auth.middlewares.js")
-const { isAdmin, isGourmet } = require("../middlewares/role.middlewares")
+//
 
 const uploader = require("../middlewares/cloudinary.middlewares.js")
 

@@ -17,7 +17,9 @@
     </li>
   {{/each}}
 </ul>
+{{#if isAdmin}}
 <button><a href="/potatoes/new-potato">Add new potato</a></button>
+{{/if}}
 <script>
   const favoriteForms = document.querySelectorAll(".favorite-form");
 

@@ -1,9 +1,17 @@
 <h1>{{recipe.title}}</h1>
 <img src="{{recipe.img}}" alt="{{recipe.title}} Image" width="200" />
 
-<p>{{recipe.instructions}}</p>
+<span>Origin: {{recipe.origin}}</span>
+
+{{#if isGourmet}}
+  <span>Cooking Time: {{recipe.time}}</span>
+  <p>{{recipe.instructions}}</p>
+  
+{{/if}}
 
 {{#if isAdmin}}
+  <span>Cooking Time: {{recipe.time}}</span>
+  <p>{{recipe.instructions}}</p>
   <a href="/recipes/{{recipe._id}}/edit">
     <button>Edit</button>
   </a>
@@ -11,14 +19,15 @@
   <form action="/recipes/{{recipe._id}}/delete" method="POST">
     <button>Delete</button>
   </form>
-{{else}}
-  {{#if isOwner}}
-  <a href="/recipes/{{recipe._id}}/edit">
-    <button>Edit</button>
-  </a>
+{{/if}}
+{{#if isOwner}}
+    <span>Cooking Time: {{recipe.time}}</span>
+    <p>{{recipe.instructions}}</p>
+    <a href="/recipes/{{recipe._id}}/edit">
+      <button>Edit</button>
+    </a>
 
-  <form action="/recipes/{{recipe._id}}/delete" method="POST">
-    <button>Delete</button>
-  </form>
-  {{/if}}
-{{/if}}  
+    <form action="/recipes/{{recipe._id}}/delete" method="POST">
+      <button>Delete</button>
+    </form>
+{{/if}}

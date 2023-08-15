@@ -7,13 +7,12 @@ const Potato = require("../models/Potato.model");
 /* GET home page */
 router.get("/", async (req, res, next) => {
   try {
-    if (req.session.user === undefined) {
-      // el usuario no está logeado
-      res.render("index")
-    } else {
+    if (res.locals.isUserActive) {
       const potatoes = await Potato.find();
       res.render("potatoes/potatoes.hbs", { potatoes });
-      
+    } else {
+      // el usuario no está logeado
+      res.render("index")
     }
   } 
   
