@@ -24,7 +24,8 @@ async function updateLocals(req, res, next) {
     console.log("userRole:", userRole);
     const userId = req.session.user._id;
     const { recipeId } = req.params;
-
+    res.locals.localId = req.session.user._id
+    
     try {
       if (userRole === "gourmet") {
         res.locals.isGourmet = true;

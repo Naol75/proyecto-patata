@@ -36,10 +36,10 @@ router.post("/addOrRemoveFavoritePotato/:potatoId", isLoggedIn, async (req, res,
     }
 
     if (req.xhr) {
-      
+
       return res.status(200).json({ message: "Potato added/removed successfully" });
     } else {
-     
+
       res.redirect("/");
     }
   } catch (error) {
@@ -83,7 +83,7 @@ router.post("/:potatoId/edit", cloudinaryMulter.single("img"), async (req, res, 
       origin: req.body.origin,
       details: req.body.details,
     };
-    
+
     if (req.file) {
       updatedFields.img = req.file.path;
     } else {
@@ -133,7 +133,7 @@ router.post("/new-potato", isLoggedIn, updateLocals, cloudinaryMulter.single("im
     try {
       if(res.locals.isAdmin){
 
-        const result = req.file.path;
+        const result = req.file.path; //si no ponemos imagen salta error (hacer un condicional)
         const newPotato = new Potato({
           name: req.body.name,
           origin: req.body.origin,
@@ -141,14 +141,14 @@ router.post("/new-potato", isLoggedIn, updateLocals, cloudinaryMulter.single("im
           img: result,
           owner: req.body.owner,
         });
-  
+
         await Potato.create(newPotato);
         res.redirect("/potatoes");
       }
       else {
         res.redirect("/auth/login")
       }
-      
+
     } catch (error) {
       next(error);
     }
