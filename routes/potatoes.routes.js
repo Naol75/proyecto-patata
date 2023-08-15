@@ -22,25 +22,30 @@ router.get("/", async (req, res, next) => {
 
 router.post("/addOrRemoveFavoritePotato/:potatoId", isLoggedIn, async (req, res, next) => {
   try {
-      const userId = req.session.user._id;
-      const potatoId = req.params.potatoId;
+    const userId = req.session.user._id;
+    const potatoId = req.params.potatoId;
 
-      const user = await User.findById(userId);
+    const user = await User.findById(userId);
 
-      const isFavorite = user.favPotatoes.includes(potatoId);
+    const isFavorite = user.favPotatoes.includes(potatoId);
 
-      if (!isFavorite) {
-          user.favPotatoes.push(potatoId);
-      } 
-      else {
-        user.favPotatoes = user.favPotatoes.filter(function(favPotatoId) {
-          return favPotatoId.toString() !== potatoId;
-      });
-      }
-      await user.save();
+    if (!isFavorite) {
+      user.favPotatoes.push(potatoId);
+    } else {
+      user.favPotatoes = user.favPotatoes.filter(favPotatoId => favPotatoId.toString() !== potatoId);
+    }
 
+    await user.save();
+
+    if (req.xhr) {
+    
+      return res.status(200).json({ message: "Potato added/removed successfully" });
+    } else {
+      
+      res.redirect("/");
+    }
   } catch (error) {
-      next(error);
+    next(error);
   }
 });
 

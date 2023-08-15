@@ -20,33 +20,30 @@ router.get("/", async (req, res, next) => {
 
 router.post("/addOrRemoveFavoriteRecipe/:recipeId", isLoggedIn, async (req, res, next) => {
   try {
-      const userId = req.session.user._id;
-      const recipeId = req.params.recipeId;
+    const userId = req.session.user._id;
+    const recipeId = req.params.recipeId;
 
-      const user = await User.findById(userId);
+    const user = await User.findById(userId);
 
-      const isFavorite = user.favRecipes.includes(recipeId);
+    const isFavorite = user.favRecipes.includes(recipeId);
 
-      if (!isFavorite) {
-          user.favRecipes.push(recipeId);
+    if (!isFavorite) {
+      user.favRecipes.push(recipeId);
+    } else {
+      user.favRecipes = user.favRecipes.filter(favRecipeId => favRecipeId.toString() !== recipeId);
+    }
 
-          
-          
-          
-        }
-        else{
-          user.favRecipes = user.favRecipes.filter(function(favRecipeId) {
-            return favRecipeId.toString() !== recipeId;
-          });
-        }
-        await user.save();
+    await user.save();
 
-
+    if (req.xhr) {
+      return res.status(200).json({ message: "Recipe added/removed successfully" });
+    } else {
+      res.redirect("/");
+    }
   } catch (error) {
-      next(error);
+    next(error);
   }
 });
-
 
 
 
