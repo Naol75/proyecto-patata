@@ -18,7 +18,8 @@ async function updateLocals(req, res, next) {
     res.locals.isOwner = false;
     res.locals.isGourmet = false;
     res.locals.isAdmin = false;
-  } else {
+    next();
+    } else {
     res.locals.isUserActive = true;
     const userRole = req.session.user.role;
     console.log("userRole:", userRole);
