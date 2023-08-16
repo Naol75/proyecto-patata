@@ -18,35 +18,19 @@ router.get("/", isLoggedIn, (req, res, next) => {
   res.render("potatoes/potatoes.hbs");
 });
 
-router.get(
-  "/profile-update",
-  async (req, res, next) => {
-    try {
-      const userId = req.session.user._id;
-
-      res.render("user/profile-update", { userId });
-    } catch (error) {
-      next(error);
-    }
+router.get("/profile", isLoggedIn, async (req, res, next) => {
+  try {
+    const user = await User.findById(req.session.user._id);
+    res.render("user/profile.hbs", {
+      user,
+    });
+  } catch (error) {
+    next(error);
   }
-);
-
-router.get(
-  "/profile-update",
-  async (req, res, next) => {
-    try {
-      const userId = req.session.user._id;
-    
-      res.render("/user/profile-update", userId);
-    } catch (error) {
-      next(error);
-    }
-  }
-);
-
+});
 
 router.post(
-  "/profile-update",
+  "/profile/update",
   cloudinaryMulter.single("img"),
   async (req, res, next) => {
     try {
