@@ -1,4 +1,4 @@
-<form action="/recipes/{{recipe._id}}/edit" method="POST" enctype="multipart/form-data">
+<form action="/recipes/{{this.recipe._id}}/edit" method="POST" enctype="multipart/form-data">
   <label for="img">Recipe image</label>
   <input type="file" name="img" value="{{recipe.img}}" accept="image/*" />
   <img src="{{recipe.img}}" alt="Current Image" width="100" height="100">
@@ -6,7 +6,7 @@
   <br />
   
   <label for="title">Recipe title</label>
-  <input type="text"  value="{{recipe.title}}" name="title" />
+  <input type="text" value="{{recipe.title}}" name="title" />
 
   <br />
 
@@ -20,26 +20,22 @@
 
   <br />
 
-  <label for="potatoes" class="form-label">Best potatoes to this recipe: </label>
-  <select name="potatoes" multiple="true">
-
-      {{#each this.allPotatoes}}
-        {{#if this.isSelected}}
-          <option selected value="{{this._id}}">{{this.name}}</option>
-        {{else}}
-          <option value="{{this._id}}">{{this.name}}</option>
-        {{/if}}
-      {{/each}}
-
-    </select>
+<label for="potatoes" class="form-label">Best potatoes to this recipe: </label>
+<br>
+{{#each allPotatoes}}
+  <label>
+    <input type="checkbox" name="potatoes" value="{{this._id}}">
+    {{this.name}}
+  </label>
+  <br>
+{{/each}}
 
   <br />
 
-  <label for="instructions">instructions</label>
+  <label for="instructions">Instructions</label>
   <textarea name="instructions" cols="30" rows="10">{{recipe.instructions}}</textarea>
 
   <br />
 
-    <button type="submit">Edit recipe</button>
-  </form>
-</div>
+  <button type="submit">Edit recipe</button>
+</form>

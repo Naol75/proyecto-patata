@@ -19,14 +19,15 @@
 
   <br />
 
-  <label for="potatoes" class="form-label">Best potatoes to this recipe: </label>
-  <select name="potatoes" multiple="true" class="form-select">
-
-  {{#each this.allPotatoes}}
-        <option value="{{this._id}}">{{this.name}}</option>
-  {{/each}}
-
-  </select>
+<label for="potatoes" class="form-label">Best potatoes to this recipe: </label>
+<br>
+{{#each this.allPotatoes}}
+  <label>
+    <input type="checkbox" name="potatoes[]" value="{{this._id}}">
+    {{this.name}}
+  </label>
+  <br>
+{{/each}}
 
   <br />
 
@@ -35,7 +36,5 @@
 
   <br />
 
-
-    <button type="submit">Add recipe</button>
-  </form>
-</div>
+  <button type="submit">Add recipe</button>
+</form>

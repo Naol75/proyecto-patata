@@ -3,13 +3,12 @@
 
 <p>Ingredients: {{recipe.ingredients}}</p>
 
-<p>Best potatoes to this recipe: 
-  <ul>
-    {{#each this.allPotatoes}}
-      <li>{{this.name}}</li>
-    {{/each}}
-  </ul>
-</p>
+<p>Best potatoes for this recipe:</p>
+<ul>
+  {{#each recipe.potatoes}}
+    <li>{{this.name}}</li>
+  {{/each}}
+</ul>
 
 {{#if isAdmin}}
   <p>Cooking Time: {{recipe.time}}</p>
