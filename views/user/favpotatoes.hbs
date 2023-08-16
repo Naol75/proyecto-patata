@@ -5,6 +5,9 @@
       {{#each favPotatoes}}
         <li>
           <h2>{{this.name}}</h2>
+            <form action="/user/addOrRemoveFavPotatoes/{{this._id}}" method="POST" >
+              <button>&#10084;</button>
+            </form>
           <p>Origin: {{this.origin}}</p>
           <p>Details: {{this.details}}</p>
           <img src="{{this.img}}" alt="{{this.name}} Image" width="200" />
@@ -25,3 +28,4 @@
   {{/if}}
 
   <a href="/potatoes">Back to All Potatoes</a>
+

@@ -104,4 +104,47 @@ router.get("/:userId/favpotatoes", isLoggedIn, async (req, res, next) => {
   }
 });
 
+router.post("/addOrRemoveFavPotatoes/:potatoId", isLoggedIn, async (req, res, next) => {
+  try {
+    const userId = req.session.user._id;
+    const potatoId = req.params.potatoId;
+
+    const user = await User.findById(userId);
+
+    const isFavorite = user.favPotatoes.includes(potatoId);
+
+    if (!isFavorite) {
+      await User.findByIdAndUpdate(userId, { $push: { favPotatoes: potatoId } });
+    } else {
+      await User.findByIdAndUpdate(userId, { $pull: { favPotatoes: potatoId } });
+    }
+
+    res.redirect("/user/:userId/favpotatoes");
+  } catch (error) {
+    next(error);
+  }
+});
+
+
+router.post("/addOrRemoveFavRecipes/:recipeId", isLoggedIn, async (req, res, next) => {
+  try {
+    const userId = req.session.user._id;
+    const recipeId = req.params.recipeId;
+
+    const user = await User.findById(userId);
+
+    const isFavorite = user.favRecipes.includes(recipeId);
+
+    if (!isFavorite) {
+      await User.findByIdAndUpdate(userId, { $push: { favRecipes: recipeId } });
+    } else {
+      await User.findByIdAndUpdate(userId, { $pull: { favRecipes: recipeId } });
+    }
+
+    res.redirect("/user/:userId/favRecipes");
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;

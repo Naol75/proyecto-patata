@@ -5,6 +5,9 @@
       {{#each favRecipes}}
         <li>
           <h2>{{this.title}}</h2>
+        <form action="/user/addOrRemoveFavRecipes/{{this._id}}" method="POST">
+          <button>&#10084;</button>
+        </form>
           <img src="{{this.img}}" alt="{{this.title}} Image" width="200" />
           <p>Ingredients: {{this.ingredients}}</p>
 
@@ -46,3 +49,37 @@
   {{/if}}
 
 <a href="/recipes">Back to All Potatoes</a>
+
+<script>
+  const favoriteForms = document.querySelectorAll(".favorite-form");
+
+  favoriteForms.forEach(form => {
+    form.addEventListener("submit", async event => {
+      event.preventDefault();
+
+      const recipeId = form.getAttribute("data-recipe-id");
+
+      try {
+        const response = await fetch(`/recipes/addOrRemoveFavoriteRecipe/${recipeId}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ recipeId })
+        });
+
+        if (response.ok) {
+
+        } else {
+          console.error("Error adding/removing favorite recipe");
+        }
+      } catch (error) {
+        console.error("Fetch error:", error);
+      }
+    });
+  });
+</script>
+
+
+
+
