@@ -51,11 +51,12 @@ router.get("/:recipeId/details", updateLocals, isLoggedIn, async (req, res, next
   try {
     const {recipeId} = req.params
     // crear variables isAdmin e isOwner fuera del render
+    const allPotatoes = await Potato.find()
     const recipe = await Recipe.findById(recipeId);
     console.log("isAdmin:", res.locals.isAdmin);
     console.log("isOwner:", res.locals.isOwner);
     console.log("isGourmet:", res.locals.isGourmet);
-    res.render("recipes/recipe-details.hbs", { recipe, isAdmin: res.locals.isAdmin, isGourmet: res.locals.isGourmet, isOwner: res.locals.isOwner });
+    res.render("recipes/recipe-details.hbs", { recipe, allPotatoes, isAdmin: res.locals.isAdmin, isGourmet: res.locals.isGourmet, isOwner: res.locals.isOwner });
   } catch (error) {
     next(error);
   }
@@ -63,20 +64,24 @@ router.get("/:recipeId/details", updateLocals, isLoggedIn, async (req, res, next
 
 router.get("/:recipeId/edit", async (req, res, next) => {
   try {
-    const {recipeId} = req.params
+    const recipeId = req.params._id
+    const allPotatoes = await Potato.find();
+    const clonePotatoes = JSON.parse(JSON.stringify(allPotatoes))
     const recipe = await Recipe.findById(recipeId);
-  
-      res.render("recipes/recipe-edit.hbs", { recipe});
-
-
+    
+    clonePotatoes.forEach(eachPotato => {
+      if (recipeId.potatoes.includes(eachPotato._id)) {
+        eachPotato.isSelected = true
+      }
+      else {
+        eachPotato.isSelected = false
+      }
+    });
+      res.render("recipes/recipe-edit.hbs", { recipe, allPotatoes });
   } catch (error) {
     next(error);
   }
 });
-
-
-
-
 
 router.post("/:recipeId/edit", cloudinaryMulter.single("img"), async (req, res, next) => {
   try {
@@ -84,12 +89,12 @@ router.post("/:recipeId/edit", cloudinaryMulter.single("img"), async (req, res, 
 
     const existingRecipe = await Recipe.findById(recipeId);
 
-
     const updatedFields = {
       title: req.body.title,
       time: req.body.title,
       ingredients: req.body.ingredients,
       instructions: req.body.instructions,
+      potatoes: req.body.potatoes,
     };
     
     if (req.file) {
@@ -125,8 +130,9 @@ router.post("/:recipeId/delete", async (req, res, next) => {
 // new-recipe
 router.get("/new-recipe", isLoggedIn, async (req, res, next) => {
   try {
+    const allPotatoes = await Potato.find()
     const userId = req.session.user._id;
-    res.render("recipes/new-recipe.hbs", { userId });
+    res.render("recipes/new-recipe.hbs", { userId, allPotatoes });
   } catch (error) {
     next(error);
   }
@@ -145,8 +151,6 @@ router.post("/new-recipe", isLoggedIn, cloudinaryMulter.single("img"), async (re
       potatoes: req.body.potatoes,
     });
 
-
-    
     await Recipe.create(newRecipe);
     res.redirect("/recipes");
 

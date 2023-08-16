@@ -8,16 +8,31 @@
   <input type="text" name="title"/>
 
   <br />
+
   <label for="time">Time</label>
   <input type="text" name="time"/>
+
   <br />
 
   <label for="ingredients">Ingredients</label>
   <input type="text" name="ingredients">
+
+  <br />
+
+  <label for="potatoes" class="form-label">Best potatoes to this recipe: </label>
+  <select name="potatoes" multiple="true" class="form-select">
+
+  {{#each this.allPotatoes}}
+        <option value="{{this._id}}">{{this.name}}</option>
+  {{/each}}
+
+  </select>
+
   <br />
 
   <label for="instructions">Instructions</label>
   <textarea name="instructions" cols="30" rows="10"></textarea>
+
   <br />
 
 

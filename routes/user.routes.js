@@ -74,13 +74,8 @@ router.get("/:userId/favrecipes", isLoggedIn, async (req, res, next) => {
     const user = await User.findById(userId).populate("favRecipes");
     const favRecipes = user.favRecipes;
 
-
     res.render("user/favrecipes.hbs", {
-      favRecipes,
-      isAdmin: res.locals.isAdmin,
-      isOwner: res.locals.isOwner,
-      isGourmet: res.locals.isGourmet,
-    });
+      favRecipes });
   } catch (error) {
     next(error);
   }

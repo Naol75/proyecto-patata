@@ -9,18 +9,36 @@
   <input type="text"  value="{{recipe.title}}" name="title" />
 
   <br />
+
   <label for="time">Time</label>
   <input type="text" value="{{recipe.time}}" name="time" />
+
   <br />
 
   <label for="ingredients">Ingredients</label>
   <textarea name="ingredients">{{recipe.ingredients}}</textarea>
+
+  <br />
+
+  <label for="potatoes" class="form-label">Best potatoes to this recipe: </label>
+  <select name="potatoes" multiple="true">
+
+      {{#each this.allPotatoes}}
+        {{#if this.isSelected}}
+          <option selected value="{{this._id}}">{{this.name}}</option>
+        {{else}}
+          <option value="{{this._id}}">{{this.name}}</option>
+        {{/if}}
+      {{/each}}
+
+    </select>
+
   <br />
 
   <label for="instructions">instructions</label>
   <textarea name="instructions" cols="30" rows="10">{{recipe.instructions}}</textarea>
-  <br />
 
+  <br />
 
     <button type="submit">Edit recipe</button>
   </form>

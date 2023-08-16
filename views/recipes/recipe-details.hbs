@@ -1,16 +1,24 @@
 <h1>{{recipe.title}}</h1>
 <img src="{{recipe.img}}" alt="{{recipe.title}} Image" width="200" />
 
-<span>Origin: {{recipe.origin}}</span>
+<p>Ingredients: {{recipe.ingredients}}</p>
+
+<p>Best potatoes to this recipe: 
+  <ul>
+    {{#each this.allPotatoes}}
+      <li>{{this.name}}</li>
+    {{/each}}
+  </ul>
+</p>
 
 {{#if isGourmet}}
-  <span>Cooking Time: {{recipe.time}}</span>
+  <p>Cooking Time: {{recipe.time}}</p>
   <p>{{recipe.instructions}}</p>
   
 {{/if}}
 
 {{#if isAdmin}}
-  <span>Cooking Time: {{recipe.time}}</span>
+  <p>Cooking Time: {{recipe.time}}</p>
   <p>{{recipe.instructions}}</p>
   <a href="/recipes/{{recipe._id}}/edit">
     <button>Edit</button>
@@ -21,7 +29,7 @@
   </form>
 {{/if}}
 {{#if isOwner}}
-    <span>Cooking Time: {{recipe.time}}</span>
+    <p>Cooking Time: {{recipe.time}}</p>
     <p>{{recipe.instructions}}</p>
     <a href="/recipes/{{recipe._id}}/edit">
       <button>Edit</button>
