@@ -50,7 +50,6 @@ router.post("/addOrRemoveFavoriteRecipe/:recipeId", isLoggedIn, async (req, res,
 router.get("/:recipeId/details", updateLocals, isLoggedIn, async (req, res, next) => {
   try {
     const {recipeId} = req.params
-    // crear variables isAdmin e isOwner fuera del render
     const allPotatoes = await Potato.find()
     const recipe = await Recipe.findById(recipeId);
     console.log("isAdmin:", res.locals.isAdmin);

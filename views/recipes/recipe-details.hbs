@@ -11,31 +11,25 @@
   </ul>
 </p>
 
-{{#if isGourmet}}
-  <p>Cooking Time: {{recipe.time}}</p>
-  <p>{{recipe.instructions}}</p>
-  
-{{/if}}
-
 {{#if isAdmin}}
   <p>Cooking Time: {{recipe.time}}</p>
   <p>{{recipe.instructions}}</p>
   <a href="/recipes/{{recipe._id}}/edit">
     <button>Edit</button>
   </a>
-
   <form action="/recipes/{{recipe._id}}/delete" method="POST">
     <button>Delete</button>
   </form>
-{{/if}}
-{{#if isOwner}}
-    <p>Cooking Time: {{recipe.time}}</p>
-    <p>{{recipe.instructions}}</p>
-    <a href="/recipes/{{recipe._id}}/edit">
-      <button>Edit</button>
-    </a>
-
-    <form action="/recipes/{{recipe._id}}/delete" method="POST">
-      <button>Delete</button>
-    </form>
+{{else if isOwner}}
+  <p>Cooking Time: {{recipe.time}}</p>
+  <p>{{recipe.instructions}}</p>
+  <a href="/recipes/{{recipe._id}}/edit">
+    <button>Edit</button>
+  </a>
+  <form action="/recipes/{{recipe._id}}/delete" method="POST">
+    <button>Delete</button>
+  </form>
+{{else if isGourmet}}
+  <p>Cooking Time: {{recipe.time}}</p>
+  <p>{{recipe.instructions}}</p>
 {{/if}}
