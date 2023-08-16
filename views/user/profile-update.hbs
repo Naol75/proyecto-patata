@@ -2,6 +2,7 @@
 <form action="/user/profile/update" method="POST" enctype="multipart/form-data">
 
   <label for="img">Profile Image</label>
+  <img src="{{user.img}}" alt="{{user.name}} Image" width="200" />
   <input type="file" name="img" value="{{user.img}}" accept="image/*" />
 
   <label for="username">Username: </label>
