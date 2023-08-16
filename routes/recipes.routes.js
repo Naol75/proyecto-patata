@@ -63,20 +63,20 @@ router.get("/:recipeId/details", updateLocals, isLoggedIn, async (req, res, next
 
 router.get("/:recipeId/edit", async (req, res, next) => {
   try {
-    const recipeId = req.params._id
+    const recipeId = req.params.recipeId; // Corregido
     const allPotatoes = await Potato.find();
-    const clonePotatoes = JSON.parse(JSON.stringify(allPotatoes))
+    const clonePotatoes = JSON.parse(JSON.stringify(allPotatoes));
     const recipe = await Recipe.findById(recipeId);
     
     clonePotatoes.forEach(eachPotato => {
-      if (recipeId.potatoes.includes(eachPotato._id)) {
-        eachPotato.isSelected = true
-      }
-      else {
-        eachPotato.isSelected = false
+      if (recipe.potatoes.includes(eachPotato._id)) { // Usar recipe.potatoes en lugar de recipeId.potatoes
+        eachPotato.isSelected = true;
+      } else {
+        eachPotato.isSelected = false;
       }
     });
-      res.render("recipes/recipe-edit.hbs", { recipe, allPotatoes });
+
+    res.render("recipes/recipe-edit.hbs", { recipe, allPotatoes });
   } catch (error) {
     next(error);
   }
@@ -151,6 +151,8 @@ router.post("/new-recipe", isLoggedIn, cloudinaryMulter.single("img"), async (re
     });
 
     await Recipe.create(newRecipe);
+    const userId = req.session.user._id;
+    await User.findByIdAndUpdate(userId, { $push: { favRecipes: newRecipe._id } });
     res.redirect("/recipes");
 
   } catch (error) {
