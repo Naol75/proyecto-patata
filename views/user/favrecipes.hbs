@@ -1,54 +1,22 @@
   <h1>Your Favorite Recipes</h1>
 
-  {{#if favRecipes.length}}
-    <ul>
-      {{#each favRecipes}}
-        <li>
-          <h2>{{this.title}}</h2>
+{{#if favRecipes.length}}
+  <ul>
+    {{#each favRecipes}}
+      <li>
+        <h2>{{this.title}}</h2>
         <form action="/user/addOrRemoveFavRecipes/{{this._id}}" method="POST">
           <button>&#10084;</button>
         </form>
-          <img src="{{this.img}}" alt="{{this.title}} Image" width="200" />
-          <p>Ingredients: {{this.ingredients}}</p>
-
-
-{{#if isGourmet}}
-  <span>Cooking Time: {{recipe.time}}</span>
-  <p>{{recipe.instructions}}</p>
-  
+        <img src="{{this.img}}" alt="{{this.title}} Image" width="200" />
+      </li> 
+    {{/each}}
+  </ul>
+{{else}}
+  <p>You haven't added any recipes to your favorites yet.</p>
 {{/if}}
 
-{{#if isAdmin}}
-  <span>Cooking Time: {{recipe.time}}</span>
-  <p>{{recipe.instructions}}</p>
-  <a href="/recipes/{{recipe._id}}/edit">
-    <button>Edit</button>
-  </a>
-
-  <form action="/recipes/{{recipe._id}}/delete" method="POST">
-    <button>Delete</button>
-  </form>
-{{/if}}
-
-{{#if isOwner}}
-    <span>Cooking Time: {{recipe.time}}</span>
-    <p>{{recipe.instructions}}</p>
-    <a href="/recipes/{{recipe._id}}/edit">
-      <button>Edit</button>
-    </a>
-
-    <form action="/recipes/{{recipe._id}}/delete" method="POST">
-      <button>Delete</button>
-    </form>
-{{/if}}
-
-      {{/each}}
-    </ul>
-  {{else}}
-    <p>You haven't added any recipes to your favorites yet.</p>
-  {{/if}}
-
-<a href="/recipes">Back to All Potatoes</a>
+<a href="/recipes">Back to All Recipes</a>
 
 <script>
   const favoriteForms = document.querySelectorAll(".favorite-form");
