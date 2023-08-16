@@ -20,20 +20,15 @@
 
   <br />
 
-<label for="potatoes" class="form-label">Best potatoes to this recipe: </label>
-<br>
-{{#each allPotatoes}}
-  <label>
-    <input type="checkbox" name="potatoes" value="{{this._id}}">
-    {{this.name}}
-  </label>
+  <label for="potatoes" class="form-label">Best potatoes to this recipe: </label>
   <br>
-{{/each}}
-
-  <br />
-
-  <label for="instructions">Instructions</label>
-  <textarea name="instructions" cols="30" rows="10">{{recipe.instructions}}</textarea>
+  {{#each allPotatoes}}
+    <label>
+      <input type="checkbox" name="potatoes" value="{{this._id}}" {{#if isSelected}}checked="checked"{{/if}}>
+      {{this.name}}
+    </label>
+    <br>
+  {{/each}}
 
   <br />
 

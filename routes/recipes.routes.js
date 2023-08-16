@@ -90,7 +90,6 @@ router.get("/:recipeId/edit", async (req, res, next) => {
     const recipe = await Recipe.findById(recipeId);
     const allPotatoes = await Potato.find();
     const clonePotatoes = JSON.parse(JSON.stringify(allPotatoes));
-    
 
     clonePotatoes.forEach((eachPotato) => {
       if (recipe.potatoes.includes(eachPotato._id)) {
@@ -102,12 +101,13 @@ router.get("/:recipeId/edit", async (req, res, next) => {
 
     res.render("recipes/recipe-edit.hbs", {
       recipe: recipe,
-      allPotatoes: allPotatoes,
+      allPotatoes: clonePotatoes,
     });
   } catch (error) {
     next(error);
   }
 });
+
 
 router.post(
   "/:recipeId/edit",
