@@ -1,6 +1,8 @@
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-image: url(https://www.littlepotatoes.com/wp-content/themes/mt-lpc/assets/dist/img/pattern.svg);
+  background-repeat: repeat;
 }
 
 a {
@@ -9,4 +11,28 @@ a {
 
 h1 {
   color: 15px;
+}
+
+.max-img-size {
+  max-width: 100%; 
+  height: 400px;
+}
+
+.title {
+  position: absolute;
+  left: 43vw;
+  top: 121px;
+}
+.recipe-title {
+  left: 45vw;
+}
+
+.favs-title {
+  left: 39.3vw;
+}
+
+.fixed-btn {
+  position: fixed;
+  top: 50vh;
+  left: 0;
 }

@@ -1,70 +1,72 @@
+<!DOCTYPE html>
 <html lang="en">
 
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>{{appTitle}}</title>
-    <link rel="stylesheet" href="/stylesheets/style.css" />
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+    crossorigin="anonymous"
+  />
+  <title>{{appTitle}}</title>
+  <link rel="stylesheet" href="/stylesheets/style.css" />
+</head>
 
-  <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <div class="container">
-        <a class="navbar-brand" href="/">Home</a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ml-auto">
-            {{#if isUserActive}}
-              <li class="nav-item">
-                <a class="nav-link" href="/potatoes">Patata List</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/recipes">Recipes List</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/user/{{localId}}/favpotatoes">Fav
-                  Patata</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/user/{{localId}}/favrecipes">Fav
-                  Recipes</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/user/profile">My Profile</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="">My Cart</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/user/logout">Log Out</a>
-              </li>
-            {{else}}
-              <li class="nav-item">
-                <a class="nav-link" href="/potatoes">Patata List</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/recipes">Recipes List</a>
-              </li>
-            {{/if}}
-          </ul>
-        </div>
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          {{#if isUserActive}}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              Menú
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <li><a class="dropdown-item" href="/potatoes">Potatoes</a></li>
+              <li><a class="dropdown-item" href="/recipes">Recipes</a></li>
+              <li><a class="dropdown-item" href="/user/{{localId}}/favpotatoes">My favourite potatoes</a></li>
+              <li><a class="dropdown-item" href="/user/{{localId}}/favrecipes">My favourite recipes</a></li>
+            </ul>
+          </li>
+          {{/if}}
+        </ul>
       </div>
-    </nav>
+      <ul class="navbar-nav ml-auto">
+        {{#if isUserActive}}
+        <li class="nav-item">
+          <a class="nav-link" href="/user/profile">My Profile</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">My Cart</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/user/logout">Log Out</a>
+        </li>
+        {{/if}}
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container">
 
     {{{body}}}
+    
+  </div>
 
-    <script src="/js/script.js"></script>
-  </body>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+    crossorigin="anonymous"></script>
+  <script src="/js/script.js"></script>
+</body>
 
 </html>

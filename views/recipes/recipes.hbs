@@ -1,26 +1,30 @@
-<div class="container mt-5">
-    <h1>Check Recipes</h1>
-    <ul class="list-unstyled recipe-list row">
-      {{#each recipes}}
-        <li class="col-md-4 mb-4 recipe-card">
-          <a href="/recipes/{{this._id}}/details" class="card-link">
-            <div class="card">
-              <img src="{{this.img}}" width="300px" alt="{{this.title}}  Image" class="card-img-top">
-              <div class="card-body">
-                <h2 class="card-title">{{this.title}}</h2>
-                <form class="favorite-form" data-recipe-id="{{this._id}}">
-                  <button class="btn btn-outline-danger">&#10084;</button>
-                </form>
+<div class="container mt-5 pt-5">
+  <div class="title recipe-title">
+  <h1>Recipes</h1>
+  </div>
+  <div class="row">
+    {{#each recipes}}
+      <div class="col-md-4 mb-4">
+        <a href="/recipes/{{this._id}}/details" class="card-link">
+          <div class="card recipe-card-container">
+            <img src="{{this.img}}" class="card-img-top img-fluid max-img-size" alt="{{this.title}} Image">
+            <div class="card-body">
+              <h2 class="card-title">{{this.title}}</h2>
+              <div class="d-flex justify-content-center">
+              <form class="favorite-form" data-recipe-id="{{this._id}}">
+                <button class="btn btn-outline-danger">&#10084;</button>
+              </form>
               </div>
             </div>
-          </a>
-        </li>
-      {{/each}}
-    </ul>
-    <button class="btn btn-secondary">
-      <a href="/recipes/new-recipe">Add New Recipe</a>
-    </button>
+          </div>
+        </a>
+      </div>
+    {{/each}}
   </div>
+  <button class="btn btn-secondary fixed-btn" style="background-color: #00b7ff">
+    <a style="text-decoration: none; color:black" href="/recipes/new-recipe">Add New Recipe</a>
+  </button>
+</div>
 <script>
   const favoriteForms = document.querySelectorAll(".favorite-form");
 

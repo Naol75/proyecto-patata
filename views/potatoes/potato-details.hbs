@@ -13,10 +13,9 @@
       <p><strong>Origin:</strong> {{potato.origin}}</p>
       <p><strong>Details:</strong></p>
       <p>{{potato.details}}</p>
-
       {{#if isAdmin}}
         <div class="mt-3">
-          <a href="/potatoes/{{potato._id}}/edit" class="btn btn-primary"><button>Edit</button></a>
+          <a href="/potatoes/{{potato._id}}/edit" class="btn btn-primary">Edit</a>
           <form action="/potatoes/{{potato._id}}/delete" method="POST" class="d-inline">
             <button type="submit" class="btn btn-danger">Delete</button>
           </form>

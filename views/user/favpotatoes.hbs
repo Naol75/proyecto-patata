@@ -1,14 +1,25 @@
-<div class="container mt-5">
+<div class="container mt-5 pt-5">
+  <div class="title favs-title">
   <h1>Your Favorite Potatoes</h1>
+  </div>
 
   {{#if favPotatoes.length}}
-    <ul class="list-unstyled potato-list">
+    <ul class="list-unstyled potato-list row">
       {{#each favPotatoes}}
-        <li class="potato-card">
+        <li class="col-md-4 mb-4 potato-card">
           <a href="/potatoes/{{this._id}}/details" class="card-link">
-            <div class="card">
+            <div
+              class="card d-flex justify-content-center align-items-center"
+              style="width: 25rem;"
+            >
+              <h2 class="card-title pt-1">{{this.name}}</h2>
+              <img
+                src="{{this.img}}"
+                width="400px"
+                alt="{{this.name}} Image"
+                class="card-img-top"
+              />
               <div class="card-body">
-                <h2 class="card-title">{{this.name}}</h2>
                 <form
                   action="/user/addOrRemoveFavPotatoes/{{this._id}}"
                   method="POST"
@@ -20,12 +31,6 @@
                   >&#10084;</button>
                 </form>
               </div>
-              <img
-                src="{{this.img}}"
-                width="400px"
-                alt="{{this.name}} Image"
-                class="card-img-top"
-              />
             </div>
           </a>
         </li>

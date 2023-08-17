@@ -1,14 +1,16 @@
-<div class="container mt-5">
-    <h1>Check Potatoes</h1>
+<div class="container mt-5 pt-5">
+  <div class="title">
+    <h1>Potatoes</h1>
+  </div>
     <ul class="list-unstyled potato-list row">
       {{#each potatoes}}
         <li class="col-md-4 mb-4 potato-card">
           <a href="/potatoes/{{this._id}}/details" class="card-link">
-            <div class="card">
-              <img src="{{this.img}}" alt="{{this.name}} Image" width="400px" class="card-img-top">
+            <div class="card d-flex justify-content-center align-items-center" style="width: 20rem;">
+              <h2 style="color: black;" class="card-title d-flex justify-content-center pt-1">{{this.name}}</h2>
+              <img src="{{this.img}}" alt="{{this.name}} Image" width="400px" height="230px" class="card-img-top">
               <div class="card-body">
-                <h2 class="card-title">{{this.name}}</h2>
-                <form class="favorite-form" data-potato-id="{{this._id}}">
+                <form style="display: inline;" class="favorite-form" data-potato-id="{{this._id}}">
                   <button class="btn btn-outline-danger">&#10084;</button>
                 </form>
                 <a href="#" class="btn btn-primary add-to-cart-button">Add to Cart</a>

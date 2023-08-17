@@ -12,21 +12,21 @@
   <p><strong>Best Potatoes for this Recipe:</strong></p>
   <ul>
     {{#each recipe.potatoes}}
-      <li>{{this.name}}</li>
+      <a href="/potatoes/{{this._id}}/details"><li>{{this.name}}</li></a>
     {{/each}}
   </ul>
 
   {{#if isAdmin}}
     <p><strong>Cooking Time:</strong> {{recipe.time}}</p>
     <p>{{recipe.instructions}}</p>
-    <a href="/recipes/{{recipe._id}}/edit" class="btn btn-primary"><button>Edit</button></a>
+    <a href="/recipes/{{recipe._id}}/edit" class="btn btn-primary">Edit</a>
     <form action="/recipes/{{recipe._id}}/delete" method="POST" class="d-inline">
       <button type="submit" class="btn btn-danger">Delete</button>
     </form>
   {{else if isOwner}}
     <p><strong>Cooking Time:</strong> {{recipe.time}}</p>
     <p>{{recipe.instructions}}</p>
-    <a href="/recipes/{{recipe._id}}/edit" class="btn btn-primary"><button>Edit</button></a>
+    <a href="/recipes/{{recipe._id}}/edit" class="btn btn-primary">Edit</a>
     <form
       action="/recipes/{{recipe._id}}/delete"
       method="POST"
