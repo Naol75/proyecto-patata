@@ -1,25 +1,51 @@
-<div id="form">
+<div class="container mt-5">
   <h2>Sign Up</h2>
   <form action="/auth/signup" method="POST">
-
-    <label> Username
-      <input type="text" name="username" placeholder="Your username" />
-    </label>
-
-    <label> Email
-      <input type="email" name="email" placeholder="Your email" />
-    </label>
-
-    <label> Password
-      <input type="password" name="password" placeholder="Your password" />
-    </label>
-
-    <label> Repeat Password
-      <input type="password" name="repeatPassword" placeholder="Repeat password" />
-    </label>
-
-    <button type="submit">Sign Up</button>
-
+    <div class="mb-3">
+      <label for="username" class="form-label">Username:</label>
+      <input
+        type="text"
+        class="form-control"
+        id="username"
+        name="username"
+        placeholder="Your username"
+        required
+      />
+    </div>
+    <div class="mb-3">
+      <label for="email" class="form-label">Email:</label>
+      <input
+        type="email"
+        class="form-control"
+        id="email"
+        name="email"
+        placeholder="Your email"
+        required
+      />
+    </div>
+    <div class="mb-3">
+      <label for="password" class="form-label">Password:</label>
+      <input
+        type="password"
+        class="form-control"
+        id="password"
+        name="password"
+        placeholder="Your password"
+        required
+      />
+    </div>
+    <div class="mb-3">
+      <label for="repeatPassword" class="form-label">Repeat Password:</label>
+      <input
+        type="password"
+        class="form-control"
+        id="repeatPassword"
+        name="repeatPassword"
+        placeholder="Repeat password"
+        required
+      />
+    </div>
+    <button type="submit" class="btn btn-primary">Sign Up</button>
 
     {{#if errorMessage}}
       <p class="error">{{errorMessage}}</p>

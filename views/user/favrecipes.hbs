@@ -1,22 +1,30 @@
-  <h1>Your Favorite Recipes</h1>
+  <div class="container mt-5">
+    <h1>Your Favorite Recipes</h1>
 
-{{#if favRecipes.length}}
-  <ul>
-    {{#each favRecipes}}
-      <li>
-        <h2>{{this.title}}</h2>
-        <form action="/user/addOrRemoveFavRecipes/{{this._id}}" method="POST">
-          <button>&#10084;</button>
-        </form>
-        <img src="{{this.img}}" alt="{{this.title}} Image" width="200" />
-      </li> 
-    {{/each}}
-  </ul>
-{{else}}
-  <p>You haven't added any recipes to your favorites yet.</p>
-{{/if}}
+    {{#if favRecipes.length}}
+      <ul class="list-unstyled recipe-list">
+        {{#each favRecipes}}
+          <li class="recipe-card">
+            <a href="/recipes/{{this._id}}/details" class="card-link">
+              <div class="card">
+                <div class="card-body">
+                  <h2 class="card-title">{{this.title}}</h2>
+                  <form action="/user/addOrRemoveFavRecipes/{{this._id}}" method="POST" class="d-inline">
+                    <button type="submit" class="btn btn-outline-danger">&#10084;</button>
+                  </form>
+                </div>
+                <img src="{{this.img}}" width="400px" alt="{{this.title}} Image" class="card-img-top">
+              </div>
+            </a>
+          </li>
+        {{/each}}
+      </ul>
+    {{else}}
+      <p>You haven't added any recipes to your favorites yet.</p>
+    {{/if}}
 
-<a href="/recipes">Back to All Recipes</a>
+    <a href="/recipes" class="btn btn-link">Back to All Recipes</a>
+  </div>
 
 <script>
   const favoriteForms = document.querySelectorAll(".favorite-form");
@@ -45,7 +53,7 @@
         console.error("Fetch error:", error);
       }
     });
-  });
+});
 </script>
 
 

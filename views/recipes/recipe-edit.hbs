@@ -1,45 +1,39 @@
-<form action="/recipes/{{recipe._id}}/edit" method="POST" enctype="multipart/form-data">
-  <label for="img">Recipe image</label>
-  <input type="file" name="img" value="{{recipe.img}}" accept="image/*" />
-  <img src="{{recipe.img}}" alt="Current Image" width="100" height="100">
-  
-  <br />
-  
-  <label for="title">Recipe title</label>
-  <input type="text"  value="{{recipe.title}}" name="title" />
+<div class="container mt-5">
+    <h1>Edit {{recipe.title}}</h1>
+    <form action="/recipes/{{this.recipe._id}}/edit" method="POST" enctype="multipart/form-data">
+      <div class="mb-3">
+        <label for="img" class="form-label">Recipe Image</label>
+        <input type="file" class="form-control" name="img" accept="image/*" />
+        <img src="{{recipe.img}}" width="400px" alt="Current Image" width="100" height="100" class="mt-2" />
+      </div>
+      
+      <div class="mb-3">
+        <label for="title" class="form-label">Recipe Title</label>
+        <input type="text" class="form-control" value="{{recipe.title}}" name="title" />
+      </div>
 
-  <br />
+      <div class="mb-3">
+        <label for="time" class="form-label">Time</label>
+        <input type="text" class="form-control" value="{{recipe.time}}" name="time" />
+      </div>
 
-  <label for="time">Time</label>
-  <input type="text" value="{{recipe.time}}" name="time" />
+      <div class="mb-3">
+        <label for="ingredients" class="form-label">Ingredients</label>
+        <textarea class="form-control" name="ingredients">{{recipe.ingredients}}</textarea>
+      </div>
 
-  <br />
+      <div class="mb-3">
+        <label for="potatoes" class="form-label">Best Potatoes for this Recipe:</label>
+        <br>
+        {{#each allPotatoes}}
+          <label class="form-check">
+            <input type="checkbox" class="form-check-input" name="potatoes" value="{{this._id}}" {{#if isSelected}}checked="checked"{{/if}}>
+            {{this.name}}
+          </label>
+          <br>
+        {{/each}}
+      </div>
 
-  <label for="ingredients">Ingredients</label>
-  <textarea name="ingredients">{{recipe.ingredients}}</textarea>
-
-  <br />
-
-  <label for="potatoes" class="form-label">Best potatoes to this recipe: </label>
-  <select name="potatoes" multiple="true">
-
-      {{#each this.allPotatoes}}
-        {{#if this.isSelected}}
-          <option selected value="{{this._id}}">{{this.name}}</option>
-        {{else}}
-          <option value="{{this._id}}">{{this.name}}</option>
-        {{/if}}
-      {{/each}}
-
-    </select>
-
-  <br />
-
-  <label for="instructions">instructions</label>
-  <textarea name="instructions" cols="30" rows="10">{{recipe.instructions}}</textarea>
-
-  <br />
-
-    <button type="submit">Edit recipe</button>
-  </form>
+      <button type="submit" class="btn btn-primary">Edit Recipe</button>
+    </form>
 </div>

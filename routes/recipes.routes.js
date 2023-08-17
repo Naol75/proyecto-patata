@@ -1,12 +1,15 @@
 const express = require("express");
-const cloudinaryMulter = require('../middlewares/cloudinary.middlewares');
+const cloudinaryMulter = require("../middlewares/cloudinary.middlewares");
 const router = express.Router();
 
 const User = require("../models/User.model");
 const Recipe = require("../models/Recipe.model");
 const Potato = require("../models/Potato.model");
 
-const { isLoggedIn, updateLocals } = require("../middlewares/auth.middlewares.js");
+const {
+  isLoggedIn,
+  updateLocals,
+} = require("../middlewares/auth.middlewares.js");
 // const { isAdmin, isOwner } = require("../middlewares/role.middlewares");
 
 router.get("/", async (req, res, next) => {
@@ -18,106 +21,124 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.post("/addOrRemoveFavoriteRecipe/:recipeId", isLoggedIn, async (req, res, next) => {
-  try {
-    const userId = req.session.user._id;
-    const recipeId = req.params.recipeId;
+router.post(
+  "/addOrRemoveFavoriteRecipe/:recipeId",
+  isLoggedIn,
+  async (req, res, next) => {
+    try {
+      const userId = req.session.user._id;
+      const recipeId = req.params.recipeId;
 
-    const user = await User.findById(userId);
+      const user = await User.findById(userId);
 
-    const isFavorite = user.favRecipes.includes(recipeId);
+      const isFavorite = user.favRecipes.includes(recipeId);
 
-    if (!isFavorite) {
-      await User.findByIdAndUpdate(userId, { $push: { favRecipes: recipeId } });
-    } else {
-      await User.findByIdAndUpdate(userId, { $pull: { favRecipes: recipeId } });
+      if (!isFavorite) {
+        await User.findByIdAndUpdate(userId, {
+          $push: { favRecipes: recipeId },
+        });
+      } else {
+        await User.findByIdAndUpdate(userId, {
+          $pull: { favRecipes: recipeId },
+        });
+      }
+
+      if (req.xhr) {
+        return res
+          .status(200)
+          .json({ message: "Recipe added/removed successfully" });
+      } else {
+        res.redirect("/");
+      }
+    } catch (error) {
+      next(error);
     }
+  }
+);
 
-    if (req.xhr) {
+router.get(
+  "/:recipeId/details",
+  updateLocals,
+  isLoggedIn,
+  async (req, res, next) => {
+    try {
+      const { recipeId } = req.params;
+      const recipe = await Recipe.findById(recipeId).populate("potatoes");
+      const allPotatoes = await Potato.find();
       
-      return res.status(200).json({ message: "Recipe added/removed successfully" });
-    } else {
-      
-      res.redirect("/");
+      console.log("isAdmin:", res.locals.isAdmin);
+      console.log("isOwner:", res.locals.isOwner);
+      console.log("isGourmet:", res.locals.isGourmet);
+
+      res.render("recipes/recipe-details.hbs", {
+        recipe,
+        allPotatoes,
+        isAdmin: res.locals.isAdmin,
+        isGourmet: res.locals.isGourmet,
+        isOwner: res.locals.isOwner,
+      });
+    } catch (error) {
+      next(error);
     }
-  } catch (error) {
-    next(error);
   }
-});
+);
 
-
-
-router.get("/:recipeId/details", updateLocals, isLoggedIn, async (req, res, next) => {
-  try {
-    const {recipeId} = req.params
-    // crear variables isAdmin e isOwner fuera del render
-    const allPotatoes = await Potato.find()
-    const recipe = await Recipe.findById(recipeId);
-    console.log("isAdmin:", res.locals.isAdmin);
-    console.log("isOwner:", res.locals.isOwner);
-    console.log("isGourmet:", res.locals.isGourmet);
-    res.render("recipes/recipe-details.hbs", { recipe, allPotatoes, isAdmin: res.locals.isAdmin, isGourmet: res.locals.isGourmet, isOwner: res.locals.isOwner });
-  } catch (error) {
-    next(error);
-  }
-});
 
 router.get("/:recipeId/edit", async (req, res, next) => {
   try {
-    const recipeId = req.params._id
-    const allPotatoes = await Potato.find();
-    const clonePotatoes = JSON.parse(JSON.stringify(allPotatoes))
-    const recipe = await Recipe.findById(recipeId);
-    
-    clonePotatoes.forEach(eachPotato => {
-      if (recipeId.potatoes.includes(eachPotato._id)) {
-        eachPotato.isSelected = true
-      }
-      else {
-        eachPotato.isSelected = false
-      }
-    });
-      res.render("recipes/recipe-edit.hbs", { recipe, allPotatoes });
-  } catch (error) {
-    next(error);
-  }
-});
-
-router.post("/:recipeId/edit", cloudinaryMulter.single("img"), async (req, res, next) => {
-  try {
     const { recipeId } = req.params;
+    const recipe = await Recipe.findById(recipeId);
+    const allPotatoes = await Potato.find();
+    const clonePotatoes = JSON.parse(JSON.stringify(allPotatoes));
 
-    const existingRecipe = await Recipe.findById(recipeId);
-
-    const updatedFields = {
-      title: req.body.title,
-      time: req.body.title,
-      ingredients: req.body.ingredients,
-      instructions: req.body.instructions,
-      potatoes: req.body.potatoes,
-    };
-    
-    if (req.file) {
-      updatedFields.img = req.file.path;
-    } else {
-      updatedFields.img = existingRecipe.img;
-    }
-
-    const editedRecipe = await Recipe.findByIdAndUpdate(recipeId, updatedFields, {
-      new: true
+    clonePotatoes.forEach((eachPotato) => {
+      if (recipe.potatoes.includes(eachPotato._id)) {
+        eachPotato.isSelected = true;
+      } else {
+        eachPotato.isSelected = false;
+      }
     });
 
-    res.redirect(`/recipes/${editedRecipe._id}/details`);
+    res.render("recipes/recipe-edit.hbs", {
+      recipe: recipe,
+      allPotatoes: clonePotatoes,
+    });
   } catch (error) {
     next(error);
   }
 });
 
 
-//id descriptivo
+router.post(
+  "/:recipeId/edit",
+  cloudinaryMulter.single("img"),
+  async (req, res, next) => {
+    try {
+      const { title, time, ingredients, instructions, img, potatoes } = req.body;
+
+      const editedRecipe = await Recipe.findByIdAndUpdate(
+        req.params.recipeId,
+        {
+          title,
+          time,
+          ingredients,
+          instructions,
+          img,
+          potatoes: potatoes,
+        },
+        { new: true }
+      );
+
+      res.redirect(`/recipes/${editedRecipe._id}/details`);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 router.post("/:recipeId/delete", async (req, res, next) => {
   try {
-    const {recipeId} = req.params;
+    const { recipeId } = req.params;
     await Recipe.findByIdAndDelete(recipeId);
 
     res.redirect("/recipes");
@@ -126,11 +147,9 @@ router.post("/:recipeId/delete", async (req, res, next) => {
   }
 });
 
-
-// new-recipe
 router.get("/new-recipe", isLoggedIn, async (req, res, next) => {
   try {
-    const allPotatoes = await Potato.find()
+    const allPotatoes = await Potato.find();
     const userId = req.session.user._id;
     res.render("recipes/new-recipe.hbs", { userId, allPotatoes });
   } catch (error) {
@@ -138,27 +157,33 @@ router.get("/new-recipe", isLoggedIn, async (req, res, next) => {
   }
 });
 
-router.post("/new-recipe", isLoggedIn, cloudinaryMulter.single("img"), async (req, res, next) => {
-  try {
-    const result = req.file.path;
-    const newRecipe = new Recipe({
-      title: req.body.title,
-      time: req.body.time,
-      ingredients: req.body.ingredients,
-      instructions: req.body.instructions,
-      img: result,
-      owner: req.session.user._id,
-      potatoes: req.body.potatoes,
-    });
+router.post(
+  "/new-recipe",
+  isLoggedIn,
+  cloudinaryMulter.single("img"),
+  async (req, res, next) => {
+    try {
+      const result = req.file.path;
+      const newRecipe = new Recipe({
+        title: req.body.title,
+        time: req.body.time,
+        ingredients: req.body.ingredients,
+        instructions: req.body.instructions,
+        img: result,
+        owner: req.session.user._id,
+        potatoes: req.body.potatoes,
+      });
 
-    await Recipe.create(newRecipe);
-    res.redirect("/recipes");
-
-  } catch (error) {
-    next(error);
+      await Recipe.create(newRecipe);
+      const userId = req.session.user._id;
+      await User.findByIdAndUpdate(userId, {
+        $push: { favRecipes: newRecipe._id },
+      });
+      res.redirect("/recipes");
+    } catch (error) {
+      next(error);
+    }
   }
-});
-
-
+);
 
 module.exports = router;

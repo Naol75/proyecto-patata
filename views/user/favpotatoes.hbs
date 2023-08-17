@@ -1,31 +1,39 @@
+<div class="container mt-5">
   <h1>Your Favorite Potatoes</h1>
 
   {{#if favPotatoes.length}}
-    <ul>
+    <ul class="list-unstyled potato-list">
       {{#each favPotatoes}}
-        <li>
-          <h2>{{this.name}}</h2>
-            <form action="/user/addOrRemoveFavPotatoes/{{this._id}}" method="POST" >
-              <button>&#10084;</button>
-            </form>
-          <p>Origin: {{this.origin}}</p>
-          <p>Details: {{this.details}}</p>
-          <img src="{{this.img}}" alt="{{this.name}} Image" width="200" />
+        <li class="potato-card">
+          <a href="/potatoes/{{this._id}}/details" class="card-link">
+            <div class="card">
+              <div class="card-body">
+                <h2 class="card-title">{{this.name}}</h2>
+                <form
+                  action="/user/addOrRemoveFavPotatoes/{{this._id}}"
+                  method="POST"
+                  class="d-inline"
+                >
+                  <button
+                    type="submit"
+                    class="btn btn-outline-danger"
+                  >&#10084;</button>
+                </form>
+              </div>
+              <img
+                src="{{this.img}}"
+                width="400px"
+                alt="{{this.name}} Image"
+                class="card-img-top"
+              />
+            </div>
+          </a>
         </li>
-
-{{#if isAdmin}}
-<a href="/potatoes/{{potato._id}}/edit">
-  <button>Edit</button>
-</a>
-<form action="/potatoes/{{potato._id}}/delete" method="POST">
-  <button>Delete</button>
-{{/if}}
-</form>
       {{/each}}
     </ul>
   {{else}}
     <p>You haven't added any potatoes to your favorites yet.</p>
   {{/if}}
 
-  <a href="/potatoes">Back to All Potatoes</a>
-
+  <a href="/potatoes" class="btn btn-link">Back to All Potatoes</a>
+</div>

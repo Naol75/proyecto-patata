@@ -1,24 +1,32 @@
-<form action="/potatoes/new-potato" method="POST" enctype="multipart/form-data">
-  <label for="img">Patata image</label>
-  <input type="file" name="img" accept="image/*" />
-  
-  <br />
-  
-  <label for="name">Patata name</label>
-  <input type="text" name="name" />
+<div class="container mt-5">
+  <h1>Add a New Potato</h1>
+  <form
+    action="/potatoes/new-potato"
+    method="POST"
+    enctype="multipart/form-data"
+  >
+    <div class="mb-3">
+      <label for="img" class="form-label">Patata Image</label>
+      <input type="file" class="form-control" name="img" accept="image/*" />
+    </div>
 
-  <br />
-  <label for="origin">Origin</label>
-  <input type="text" name="origin" />
-  <br />
+    <div class="mb-3">
+      <label for="name" class="form-label">Patata Name</label>
+      <input type="text" class="form-control" name="name" />
+    </div>
 
-  <label for="details">Details</label>
-  <textarea name="details" cols="30" rows="10"></textarea>
-  <br />
+    <div class="mb-3">
+      <label for="origin" class="form-label">Origin</label>
+      <input type="text" class="form-control" name="origin" />
+    </div>
 
-    {{log userId}}
+    <div class="mb-3">
+      <label for="details" class="form-label">Details</label>
+      <textarea class="form-control" name="details" rows="6"></textarea>
+    </div>
+
     <input type="hidden" name="owner" value="{{userId}}" />
 
-    <button type="submit">Add patata</button>
+    <button type="submit" class="btn btn-primary">Add Potato</button>
   </form>
-</div>
+  </div>

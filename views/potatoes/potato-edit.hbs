@@ -1,23 +1,24 @@
-<form action="/potatoes/{{potato._id}}/edit" method="POST" enctype="multipart/form-data">
-  <label for="img">Patata image</label>
-  <input type="file" name="img" value="{{potato.img}}" accept="image/*" />
-   <img src="{{potato.img}}" alt="Current Image" width="100" height="100">
-  
-  <br />
-  
-  <label for="name">Patata name</label>
-  <input type="text"  value="{{potato.name}}" name="name" />
+<div class="mb-3">
+        <label for="img" class="form-label">Patata Image</label>
+        <input type="file" class="form-control" name="img" accept="image/*" />
+        <img src="{{potato.img}}" alt="Current Image" width="400px" class="mt-2" />
+      </div>
+      
+      <div class="mb-3">
+        <label for="name" class="form-label">Patata Name</label>
+        <input type="text" class="form-control" value="{{potato.name}}" name="name" />
+      </div>
 
-  <br />
-  <label for="origin">Origin</label>
-  <input type="text" value="{{potato.origin}}" name="origin" />
-  <br />
+      <div class="mb-3">
+        <label for="origin" class="form-label">Origin</label>
+        <input type="text" class="form-control" value="{{potato.origin}}" name="origin" />
+      </div>
 
-  <label for="details">Details</label>
-  <textarea name="details" required cols="30" rows="10">{{potato.details}}</textarea>
-  <br />
+      <div class="mb-3">
+        <label for="details" class="form-label">Details</label>
+        <textarea class="form-control" name="details" required rows="6">{{potato.details}}</textarea>
+      </div>
 
-
-    <button type="submit">Edit patata</button>
-  </form>
+      <button type="submit" class="btn btn-primary">Edit Potato</button>
+    </form>
 </div>

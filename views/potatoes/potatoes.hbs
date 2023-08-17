@@ -1,25 +1,29 @@
-<h1>Check Potatoes</h1>
-<ul class="potato-list">
-  {{#each potatoes}}
-    <li class="potato-card">
-      <a href="/potatoes/{{this._id}}/details" class="card-link">
-        <div class="card-content">
-          <img width="400px" src="{{this.img}}" alt="{{this.name}} Image">
-          <h2>
-            {{this.name}}
-            <form class="favorite-form" data-potato-id="{{this._id}}">
-              <button>&#10084;</button>
-            </form>
-          </h2>
-          <a href="#"><button class="add-to-cart-button">Add to Cart</button></a>
-        </div>
-      </a>
-    </li>
-  {{/each}}
-</ul>
-{{#if isAdmin}}
-<button><a href="/potatoes/new-potato">Add new potato</a></button>
-{{/if}}
+<div class="container mt-5">
+    <h1>Check Potatoes</h1>
+    <ul class="list-unstyled potato-list row">
+      {{#each potatoes}}
+        <li class="col-md-4 mb-4 potato-card">
+          <a href="/potatoes/{{this._id}}/details" class="card-link">
+            <div class="card">
+              <img src="{{this.img}}" alt="{{this.name}} Image" width="400px" class="card-img-top">
+              <div class="card-body">
+                <h2 class="card-title">{{this.name}}</h2>
+                <form class="favorite-form" data-potato-id="{{this._id}}">
+                  <button class="btn btn-outline-danger">&#10084;</button>
+                </form>
+                <a href="#" class="btn btn-primary add-to-cart-button">Add to Cart</a>
+              </div>
+            </div>
+          </a>
+        </li>
+      {{/each}}
+    </ul>
+    {{#if isAdmin}}
+    <button class="btn btn-secondary">
+      <a href="/potatoes/new-potato">Add New Potato</a>
+    </button>
+    {{/if}}
+  </div>
 <script>
   const favoriteForms = document.querySelectorAll(".favorite-form");
 
@@ -45,5 +49,5 @@
         console.error("Fetch error:", error);
       }
     });
-  });
+});
 </script>

@@ -1,41 +1,41 @@
-<h1>{{recipe.title}}</h1>
-<img src="{{recipe.img}}" alt="{{recipe.title}} Image" width="200" />
+<div class="container mt-5">
+  <h1>{{recipe.title}}</h1>
+  <img
+    src="{{recipe.img}}"
+    width="400px"
+    alt="{{recipe.title}} Image"
+    class="img-fluid"
+  />
 
-<p>Ingredients: {{recipe.ingredients}}</p>
+  <p><strong>Ingredients:</strong> {{recipe.ingredients}}</p>
 
-<p>Best potatoes to this recipe: 
+  <p><strong>Best Potatoes for this Recipe:</strong></p>
   <ul>
-    {{#each this.allPotatoes}}
+    {{#each recipe.potatoes}}
       <li>{{this.name}}</li>
     {{/each}}
   </ul>
-</p>
 
-{{#if isGourmet}}
-  <p>Cooking Time: {{recipe.time}}</p>
-  <p>{{recipe.instructions}}</p>
-  
-{{/if}}
-
-{{#if isAdmin}}
-  <p>Cooking Time: {{recipe.time}}</p>
-  <p>{{recipe.instructions}}</p>
-  <a href="/recipes/{{recipe._id}}/edit">
-    <button>Edit</button>
-  </a>
-
-  <form action="/recipes/{{recipe._id}}/delete" method="POST">
-    <button>Delete</button>
-  </form>
-{{/if}}
-{{#if isOwner}}
-    <p>Cooking Time: {{recipe.time}}</p>
+  {{#if isAdmin}}
+    <p><strong>Cooking Time:</strong> {{recipe.time}}</p>
     <p>{{recipe.instructions}}</p>
-    <a href="/recipes/{{recipe._id}}/edit">
-      <button>Edit</button>
-    </a>
-
-    <form action="/recipes/{{recipe._id}}/delete" method="POST">
-      <button>Delete</button>
+    <a href="/recipes/{{recipe._id}}/edit" class="btn btn-primary"><button>Edit</button></a>
+    <form action="/recipes/{{recipe._id}}/delete" method="POST" class="d-inline">
+      <button type="submit" class="btn btn-danger">Delete</button>
     </form>
-{{/if}}
+  {{else if isOwner}}
+    <p><strong>Cooking Time:</strong> {{recipe.time}}</p>
+    <p>{{recipe.instructions}}</p>
+    <a href="/recipes/{{recipe._id}}/edit" class="btn btn-primary"><button>Edit</button></a>
+    <form
+      action="/recipes/{{recipe._id}}/delete"
+      method="POST"
+      class="d-inline"
+    >
+      <button type="submit" class="btn btn-danger">Delete</button>
+    </form>
+  {{else if isGourmet}}
+    <p><strong>Cooking Time:</strong> {{recipe.time}}</p>
+    <p>{{recipe.instructions}}</p>
+  {{/if}}
+</div>

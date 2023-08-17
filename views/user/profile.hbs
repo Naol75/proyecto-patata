@@ -1,15 +1,10 @@
-<h1>User Profile</h1>
+<div class="container mt-5">
+  <h1>User Profile</h1>
 
+  <img src="{{user.img}}" alt="Profile Image" class="img-fluid mb-3" />
 
-  <img src="{{user.img}}" alt="Profile Image">
+  <p><strong>Username:</strong> {{user.username}}</p>
+  <p><strong>Email:</strong> {{user.email}}</p>
 
- <p>Username: {{user.username}}</p> 
-<p>E-mail: {{user.email}}</p>
-
-
-
-
-<a href="/user/profile-update">
-<button>Edit Profile</button>
-</a>
-  
+  <a href="/user/profile-update" class="btn btn-primary">Edit Profile</a>
+  </div>

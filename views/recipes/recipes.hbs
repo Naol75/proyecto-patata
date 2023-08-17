@@ -1,22 +1,26 @@
-<h1>Check Recipes</h1>
-<ul class="recipe-list">
-  {{#each recipes}}
-    <li class="recipe-card">
-      <a href="/recipes/{{this._id}}/details" class="card-link">
-        <div class="card-content">
-          <img width="400px" src="{{this.img}}" alt="{{this.title}} Image">
-          <h2>
-            {{this.title}}
-            <form class="favorite-form" data-recipe-id="{{this._id}}">
-              <button>&#10084;</button>
-            </form>
-          </h2>
-        </div>
-      </a>
-    </li>
-  {{/each}}
-</ul>
-<button><a href="/recipes/new-recipe">Add new recipe</a></button>
+<div class="container mt-5">
+    <h1>Check Recipes</h1>
+    <ul class="list-unstyled recipe-list row">
+      {{#each recipes}}
+        <li class="col-md-4 mb-4 recipe-card">
+          <a href="/recipes/{{this._id}}/details" class="card-link">
+            <div class="card">
+              <img src="{{this.img}}" width="300px" alt="{{this.title}}  Image" class="card-img-top">
+              <div class="card-body">
+                <h2 class="card-title">{{this.title}}</h2>
+                <form class="favorite-form" data-recipe-id="{{this._id}}">
+                  <button class="btn btn-outline-danger">&#10084;</button>
+                </form>
+              </div>
+            </div>
+          </a>
+        </li>
+      {{/each}}
+    </ul>
+    <button class="btn btn-secondary">
+      <a href="/recipes/new-recipe">Add New Recipe</a>
+    </button>
+  </div>
 <script>
   const favoriteForms = document.querySelectorAll(".favorite-form");
 
@@ -44,7 +48,7 @@
         console.error("Fetch error:", error);
       }
     });
-  });
+});
 </script>
 
 

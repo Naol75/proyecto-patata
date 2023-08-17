@@ -1,31 +1,38 @@
-<h1>Welcome to Patata's World!</h1>
-<a href="/auth/login">
-    <button>Come into the kitchen!</button>
-</a>
-<a href="/auth/signup">
-<button>Sign Up!</button>
-</a>
+<div class="container mt-5">
+  <h1>Welcome to Patata's World!</h1>
+  <a href="/auth/login" class="btn btn-primary mr-2">Come into the kitchen!</a>
+  <a href="/auth/signup" class="btn btn-secondary">Sign Up!</a>
 
-{{#if isUserActive}}
-
-<h1>Check Potatoes</h1>
-<ul class="potato-list">
-  {{#each potatoes}}
-    <li class="potato-card">
-      <a href="/potatoes/{{this._id}}/details" class="card-link">
-        <div class="card-content">
-          <img  width="400px" src="{{this.img}}" alt="{{this.name}} Image">
-          <h2>
-            {{this.name}}
-              <form action="/addOrRemoveFavoritePotato/:potatoId" method="POST">
-               <button>&#10084;</button>
-              </form>
-          </h2>
-          <button class="add-to-cart-button">Add to Cart</button>
-        </div>
-      </a>
-    </li>
-  {{/each}}
-</ul>
-
-{{/if}}
+  {{#if isUserActive}}
+    <h1 class="mt-5">Check Potatoes</h1>
+    <ul class="list-unstyled potato-list">
+      {{#each potatoes}}
+        <li class="potato-card">
+          <a href="/potatoes/{{this._id}}/details" class="card-link">
+            <div class="card">
+              <img
+                src="{{this.img}}"
+                alt="{{this.name}} Image"
+                class="card-img-top"
+              />
+              <div class="card-body">
+                <h2 class="card-title">{{this.name}}</h2>
+                <form
+                  action="/addOrRemoveFavoritePotato/{{this._id}}"
+                  method="POST"
+                  class="d-inline"
+                >
+                  <button
+                    type="submit"
+                    class="btn btn-outline-danger"
+                  >&#10084;</button>
+                </form>
+                <button class="btn btn-secondary add-to-cart-button">Add to Cart</button>
+              </div>
+            </div>
+          </a>
+        </li>
+      {{/each}}
+    </ul>
+  {{/if}}
+  </div>

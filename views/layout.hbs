@@ -9,19 +9,57 @@
   </head>
 
   <body>
-    <nav>
-      {{#if isUserActive}}
-      <a href="/potatoes">Patata List</a>
-      <a href="/recipes">Recipes List</a>
-      <a href="/user/{{localId}}/favpotatoes">Fav Patata</a>
-      <a href="/user/{{localId}}/favrecipes">Fav Recipes</a>
-      <a href="/user/profile">My Profile</a>
-      <a href="">My Cart</a>
-      <a href="/user/logout">Log Out</a>
-      {{else}}
-      <a href="/potatoes">Patata List</a>
-      <a href="/recipes">Recipes List</a>
-      {{/if}}
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container">
+        <a class="navbar-brand" href="/">Home</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ml-auto">
+            {{#if isUserActive}}
+              <li class="nav-item">
+                <a class="nav-link" href="/potatoes">Patata List</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/recipes">Recipes List</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/user/{{localId}}/favpotatoes">Fav
+                  Patata</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/user/{{localId}}/favrecipes">Fav
+                  Recipes</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/user/profile">My Profile</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="">My Cart</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/user/logout">Log Out</a>
+              </li>
+            {{else}}
+              <li class="nav-item">
+                <a class="nav-link" href="/potatoes">Patata List</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/recipes">Recipes List</a>
+              </li>
+            {{/if}}
+          </ul>
+        </div>
+      </div>
     </nav>
 
     {{{body}}}
