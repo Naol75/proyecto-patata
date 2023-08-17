@@ -17,21 +17,21 @@
 
 <body>
 
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <nav class="navbar navbar-expand-lg navbar bg custom-navbar">
     <div class="container-fluid">
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
+        <ul class="navbar-nav" style="font-size: large;">
           {{#if isUserActive}}
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
               data-bs-toggle="dropdown" aria-expanded="false">
-              Menú
+              Menu
             </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" style="font-size:medium;">
               <li><a class="dropdown-item" href="/potatoes">Potatoes</a></li>
               <li><a class="dropdown-item" href="/recipes">Recipes</a></li>
               <li><a class="dropdown-item" href="/user/{{localId}}/favpotatoes">My favourite potatoes</a></li>
@@ -41,7 +41,7 @@
           {{/if}}
         </ul>
       </div>
-      <ul class="navbar-nav ml-auto">
+      <ul class="navbar-nav ml-auto" style="font-size: large;">
         {{#if isUserActive}}
         <li class="nav-item">
           <a class="nav-link" href="/user/profile">My Profile</a>

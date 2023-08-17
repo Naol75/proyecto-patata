@@ -10,9 +10,9 @@
             <a href="/recipes/{{this._id}}/details" class="card-link">
               <div class="card" style="width: 25rem;">
                 <img src="{{this.img}}" alt="{{this.title}}" class="card-img-top img-fluid max-img-size">
-                <div class="card-body">
-                  <h2 class="card-title">{{this.title}}</h2>
-                  <div class="d-flex justify-content-center">
+                <div class="card-body" style="height: 135px; position:relative">
+                  <h4 class="card-title">{{this.title}}</h4>
+                  <div class="d-flex justify-content-center" style="position: absolute; left:45%; bottom: 15px;">
                   <form action="/user/addOrRemoveFavRecipes/{{this._id}}" method="POST" class="d-inline">
                     <button type="submit" class="btn btn-outline-danger">&#10084;</button>
                   </form>

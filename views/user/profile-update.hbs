@@ -1,43 +1,47 @@
 <div class="container mt-5">
-  <h1>User Profile</h1>
-  <form
-    action="/user/profile/update"
-    method="POST"
-    enctype="multipart/form-data"
-  >
-    <div class="mb-3">
-      <label for="img" class="form-label">Profile Image</label>
-      <img
-        src="{{user.img}}"
-        alt="{{user.name}} Image"
-        width="200"
-        class="img-fluid mb-2"
-      />
-      <input type="file" class="form-control" name="img" accept="image/*" />
-    </div>
+  <div class="mb-5">
+    <h1>User Profile</h1>
+  </div>
+  <div style="font-size: large;">
+    <form
+      action="/user/profile/update"
+      method="POST"
+      enctype="multipart/form-data"
+    >
+      <div class="mb-3">
+        <label for="img" class="form-label">Profile Image</label>
+        <img
+          src="{{user.img}}"
+          alt="{{user.name}} Image"
+          width="200"
+          class="img-fluid mb-2"
+        />
+        <input type="file" class="form-control" name="img" accept="image/*" />
+      </div>
 
-    <div class="mb-3">
-      <label for="username" class="form-label">Username:</label>
-      <input
-        type="text"
-        class="form-control"
-        id="username"
-        name="username"
-        value="{{user.username}}"
-      />
-    </div>
+      <div class="mb-3">
+        <label for="username" class="form-label">Username:</label>
+        <input
+          type="text"
+          class="form-control"
+          id="username"
+          name="username"
+          value="{{user.username}}"
+        />
+      </div>
 
-    <div class="mb-3">
-      <label for="email" class="form-label">Email:</label>
-      <input
-        type="email"
-        class="form-control"
-        id="email"
-        name="email"
-        value="{{user.email}}"
-      />
-    </div>
+      <div class="mb-3">
+        <label for="email" class="form-label">Email:</label>
+        <input
+          type="email"
+          class="form-control"
+          id="email"
+          name="email"
+          value="{{user.email}}"
+        />
+      </div>
 
-    <button type="submit" class="btn btn-primary">Update Profile</button>
-  </form>
+      <button type="submit" class="btn btn-primary">Update Profile</button>
+    </form>
+  </div>
 </div>

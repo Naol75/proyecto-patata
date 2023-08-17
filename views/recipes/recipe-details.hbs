@@ -7,25 +7,25 @@
     class="img-fluid"
   />
 
-  <p><strong>Ingredients:</strong> {{recipe.ingredients}}</p>
+  <p class="pt-5" style="font-size: large;"><strong>Ingredients:</strong> {{recipe.ingredients}}</p>
 
-  <p><strong>Best Potatoes for this Recipe:</strong></p>
-  <ul>
+  <p style="font-size: large;"><strong>Best Potatoes for this Recipe:</strong></p>
+  <ul style="font-size: large;">
     {{#each recipe.potatoes}}
       <a href="/potatoes/{{this._id}}/details"><li>{{this.name}}</li></a>
     {{/each}}
   </ul>
 
   {{#if isAdmin}}
-    <p><strong>Cooking Time:</strong> {{recipe.time}}</p>
-    <p>{{recipe.instructions}}</p>
+    <p style="font-size: large;"><strong>Cooking Time:</strong> {{recipe.time}}</p>
+    <p style="font-size: large;">{{recipe.instructions}}</p>
     <a href="/recipes/{{recipe._id}}/edit" class="btn btn-primary">Edit</a>
     <form action="/recipes/{{recipe._id}}/delete" method="POST" class="d-inline">
       <button type="submit" class="btn btn-danger">Delete</button>
     </form>
   {{else if isOwner}}
-    <p><strong>Cooking Time:</strong> {{recipe.time}}</p>
-    <p>{{recipe.instructions}}</p>
+    <p style="font-size: large;"><strong>Cooking Time:</strong> {{recipe.time}}</p>
+    <p style="font-size: large;">{{recipe.instructions}}</p>
     <a href="/recipes/{{recipe._id}}/edit" class="btn btn-primary">Edit</a>
     <form
       action="/recipes/{{recipe._id}}/delete"
@@ -35,7 +35,7 @@
       <button type="submit" class="btn btn-danger">Delete</button>
     </form>
   {{else if isGourmet}}
-    <p><strong>Cooking Time:</strong> {{recipe.time}}</p>
-    <p>{{recipe.instructions}}</p>
+    <p style="font-size: large;"><strong>Cooking Time:</strong> {{recipe.time}}</p>
+    <p style="font-size: large;">{{recipe.instructions}}</p>
   {{/if}}
 </div>

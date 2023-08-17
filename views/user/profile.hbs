@@ -1,10 +1,25 @@
-<div class="container mt-5">
+<div
+  class="container mt-5 d-flex justify-content-center row text-center"
+  style="gap: 10px;"
+>
   <h1>User Profile</h1>
-
-  <img src="{{user.img}}" alt="Profile Image" class="img-fluid mb-3" />
-
-  <p><strong>Username:</strong> {{user.username}}</p>
-  <p><strong>Email:</strong> {{user.email}}</p>
-
-  <a href="/user/profile-update" class="btn btn-primary">Edit Profile</a>
+  <div>
+    <img
+      src="{{user.img}}"
+      alt="Profile Image"
+      class="img-fluid mb-3"
+      style="font-size: large;"
+    />
+    <div>
+      <p style="font-size: large;"><strong>Username:</strong>
+        {{user.username}}</p>
+      <p style="font-size: large;"><strong>Email:</strong> {{user.email}}</p>
+    </div>
   </div>
+
+  <a
+    href="/user/profile-update"
+    class="btn btn-primary"
+    style="width: 103px; height: 38px;"
+  >Edit</a>
+</div>
