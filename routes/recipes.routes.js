@@ -12,6 +12,7 @@ const {
 } = require("../middlewares/auth.middlewares.js");
 // const { isAdmin, isOwner } = require("../middlewares/role.middlewares");
 
+// Ruta para mostrar la lista de recetas
 router.get("/", async (req, res, next) => {
   try {
     const recipes = await Recipe.find();
@@ -21,6 +22,7 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+// Ruta para agregar o eliminar una receta de favoritos
 router.post(
   "/addOrRemoveFavoriteRecipe/:recipeId",
   isLoggedIn,
@@ -56,6 +58,7 @@ router.post(
   }
 );
 
+// Ruta para mostrar los detalles de una receta
 router.get(
   "/:recipeId/details",
   updateLocals,
@@ -65,7 +68,7 @@ router.get(
       const { recipeId } = req.params;
       const recipe = await Recipe.findById(recipeId).populate("potatoes");
       const allPotatoes = await Potato.find();
-      
+
       console.log("isAdmin:", res.locals.isAdmin);
       console.log("isOwner:", res.locals.isOwner);
       console.log("isGourmet:", res.locals.isGourmet);
@@ -83,7 +86,7 @@ router.get(
   }
 );
 
-
+// Ruta para editar una receta
 router.get("/:recipeId/edit", async (req, res, next) => {
   try {
     const { recipeId } = req.params;
@@ -108,13 +111,13 @@ router.get("/:recipeId/edit", async (req, res, next) => {
   }
 });
 
-
 router.post(
   "/:recipeId/edit",
   cloudinaryMulter.single("img"),
   async (req, res, next) => {
     try {
-      const { title, time, ingredients, instructions, img, potatoes } = req.body;
+      const { title, time, ingredients, instructions, img, potatoes } =
+        req.body;
 
       const editedRecipe = await Recipe.findByIdAndUpdate(
         req.params.recipeId,
@@ -136,6 +139,7 @@ router.post(
   }
 );
 
+// Ruta para eliminar una receta
 router.post("/:recipeId/delete", async (req, res, next) => {
   try {
     const { recipeId } = req.params;
@@ -147,6 +151,7 @@ router.post("/:recipeId/delete", async (req, res, next) => {
   }
 });
 
+// Ruta para agregar una nueva receta
 router.get("/new-recipe", isLoggedIn, async (req, res, next) => {
   try {
     const allPotatoes = await Potato.find();

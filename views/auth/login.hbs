@@ -1,7 +1,7 @@
-
 {{#if successMessage}}
   <div class="alert alert-success message" id="successMessage">
     {{successMessage}}
+    <!-- Muestra el mensaje de éxito si existe -->
   </div>
 {{/if}}
 <div class="container mt-5">
@@ -30,16 +30,15 @@
     <button type="submit" class="btn btn-primary">Login</button>
     {{#if errorMessage}}
       <p class="error">{{errorMessage}}</p>
+      <!-- Muestra el mensaje de error si existe -->
     {{/if}}
   </form>
   <p class="mt-3">Don't have an account? <a href="/auth/signup">Sign up</a></p>
 </div>
 
 <script>
-  setTimeout(() => {
-    const successMessage = document.getElementById("successMessage");
-    if (successMessage) {
-      successMessage.style.display = "none";
-    }
-  }, 1600)
+  setTimeout(() => { const successMessage =
+  document.getElementById("successMessage"); if (successMessage) {
+  successMessage.style.display = "none"; // Oculta el mensaje de éxito después
+  de 1600 ms } }, 1600);
 </script>
