@@ -161,4 +161,4 @@ router.post("/new-potato", isLoggedIn, updateLocals, cloudinaryMulter.single("im
 
 module.exports = router;
 
-module.exports = router;
+
