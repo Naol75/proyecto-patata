@@ -12,13 +12,8 @@
               class="card d-flex justify-content-center align-items-center"
               style="width: 25rem;"
             >
-              <h2 class="card-title pt-1">{{this.name}}</h2>
-              <img
-                src="{{this.img}}"
-                width="400px"
-                alt="{{this.name}} Image"
-                class="card-img-top"
-              />
+                <h2 style="color: black;" class="card-title d-flex justify-content-center pt-1">{{this.name}}</h2>
+              <img src="{{this.img}}" alt="{{this.name}} Image" width="400px" height="230px" class="card-img-top">
               <div class="card-body">
                 <form
                   action="/user/addOrRemoveFavPotatoes/{{this._id}}"
