@@ -17,6 +17,7 @@
               </div>
             </div>
           </a>
+            <div class="alert" id="alert-{{this._id}}" style="display: none;">Favourite - added/removed!</div>
         </li>
       {{/each}}
     </ul>
@@ -36,6 +37,7 @@
       event.preventDefault();
 
       const potatoId = form.getAttribute("data-potato-id");
+      const alertElement = document.querySelector(`#alert-${potatoId}`);
 
       try {
         const response = await fetch(`/potatoes/addOrRemoveFavoritePotato/${potatoId}`, {
@@ -48,10 +50,21 @@
 
         if (!response.ok) {
           console.error("Error adding/removing favorite potato");
+        } else {
+          alertElement.style.display = "block";
+          setTimeout(() => {
+            alertElement.style.display = "none";
+          }, 2000);
         }
       } catch (error) {
         console.error("Fetch error:", error);
       }
     });
-});
+  });
 </script>
+
+
+
+
+
+

@@ -94,3 +94,23 @@ h1 {
   background-color: #fde2bd;
   border-radius: 7px;
 }
+
+.alert {
+  position: absolute;
+  display: none;
+  background-color: #0B5CD5;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20rem;
+  transition: opacity 0.5s;
+}
+
+
+.alert.show {
+  opacity: 1;
+}

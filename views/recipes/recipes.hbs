@@ -16,6 +16,9 @@
                 </form>
               </div>
             </div>
+              <div class="alert" id="recipe-alert-{{this._id}}" style="display: none;">
+              Favourite - added/removed!
+            </div>
           </div>
         </a>
       </div>
@@ -35,6 +38,7 @@
       event.preventDefault();
 
       const recipeId = form.getAttribute("data-recipe-id");
+      const alertElement = document.querySelector(`#recipe-alert-${recipeId}`);
 
       try {
         const response = await fetch(`/recipes/addOrRemoveFavoriteRecipe/${recipeId}`, {
@@ -46,7 +50,10 @@
         });
 
         if (response.ok) {
-
+          alertElement.style.display = "block";
+          setTimeout(() => {
+            alertElement.style.display = "none";
+          }, 2000);
         } else {
           console.error("Error adding/removing favorite recipe");
         }
@@ -54,7 +61,7 @@
         console.error("Fetch error:", error);
       }
     });
-});
+  });
 </script>
 
 
