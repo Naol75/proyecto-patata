@@ -64,6 +64,8 @@ if (regexPassword.test(password) === false) {
       password: passwordHash
     })
 
+    req.session.successMessage = "Registration successful! You can now log in.";
+    
     // lo ultimo que ocurrira cuando se ejecute todo...
     res.redirect("/auth/login")
   } catch (error) {
@@ -73,7 +75,9 @@ if (regexPassword.test(password) === false) {
 
 // GET /auth/login
 router.get("/login", (req, res, next) => {
-  res.render("auth/login");
+  const successMessage = req.session.successMessage;
+  req.session.successMessage = null;
+  res.render("auth/login.hbs", { successMessage });
 });
 
 // POST /auth/login

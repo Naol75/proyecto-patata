@@ -1,3 +1,9 @@
+
+{{#if successMessage}}
+  <div class="alert alert-success message" id="successMessage">
+    {{successMessage}}
+  </div>
+{{/if}}
 <div class="container mt-5">
   <h1>Login</h1>
   <form action="/auth/login" method="POST">
@@ -28,3 +34,12 @@
   </form>
   <p>Don't have an account? <a href="/auth/signup">Sign up</a></p>
 </div>
+
+<script>
+  setTimeout(() => {
+    const successMessage = document.getElementById("successMessage");
+    if (successMessage) {
+      successMessage.style.display = "none";
+    }
+  }, 1600);
+</script>
